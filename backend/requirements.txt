@@ -1,0 +1,6 @@
+flask
+flask-cors
+Flask-SQLAlchemy
+PyJWT
+bcrypt
+requests

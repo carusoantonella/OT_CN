@@ -1,0 +1,151 @@
+.generic-node {
+  padding: 10px;
+  border-radius: 3px;
+  width: 160px;
+  font-size: 12px;
+  color: #222;
+  text-align: center;
+  border: 1px solid #1a192b;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s, transform 0.1s;
+}
+
+.generic-node.selected {
+  box-shadow: 0 0 0 2px #1a192b;
+}
+
+.generic-node .node-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* dimensione massima dell’icona all’interno del nodo */
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 4px; /* centrata orizzontalmente e un po’ di spazio sotto */
+}
+
+.node-icon-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.group-node {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  position: relative;
+  transition: box-shadow 0.2s;
+}
+
+.group-node.selected {
+  box-shadow: 0 0 0 2px #1a192b;
+}
+
+.node-header,
+.group-header {
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.group-header {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 5px 10px;
+  border-radius: 3px 3px 0 0;
+  margin: 0;
+  text-align: center;
+}
+
+.node-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.group-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100% - 40px);
+}
+
+.drop-area-text {
+  color: #aaa;
+  font-size: 12px;
+  font-style: italic;
+  pointer-events: none;
+}
+
+.node-name-input,
+.group-name-input {
+  background: transparent;
+  border: none;
+  text-align: center;
+  width: 100%;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 3px;
+  color: #333;
+}
+
+.node-name-input:focus,
+.group-name-input:focus {
+  outline: none;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 3px;
+}
+
+.handle {
+  width: 8px;
+  height: 8px;
+  background-color: #784be8;
+}
+
+.resize-handle {
+  background-color: #784be8;
+  width: 8px;
+  height: 8px;
+}
+
+/* NUOVA regola per visualizzare IP/Subnet */
+.node-subnet {
+  font-size: 11px;
+  color: #555;
+  margin-top: 4px;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* Pulsante di cancellazione (×) */
+.delete-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: #f44336;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  line-height: 18px;
+  cursor: pointer;
+}
+
+/* Aumenta la hit‐area dei resize handle */
+.resize-handle {
+  pointer-events: all !important;
+}
+
+/* Assicura che i piccoli cerchietti di React Flow catturino i click */
+.react-flow__handle {
+  pointer-events: all !important;
+}
+.node-icon-fa {
+  font-size: 24px; /* o quello che preferisci */
+}

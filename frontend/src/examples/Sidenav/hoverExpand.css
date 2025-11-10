@@ -1,0 +1,506 @@
+/* ======================================================
+   HOVER-TO-EXPAND (CSS only) — versione pulita e snappy
+   ====================================================== */
+
+/* 1) Variabili globali, una sola volta */
+:root {
+  --nav-collapsed: -155px;
+  --nav-expanded: 270px;
+}
+
+:root {
+  /* aspetto area submenu */
+  --submenu-bg-1: rgba(233, 233, 240, 0.06); /* sfondo 1° livello figli */
+  --submenu-bg-2: rgba(233, 233, 240, 0.06); /* sfondo 2° livello figli */
+  --submenu-radius: 10px; /* raggio bordi blocchi figli */
+
+  /* indent e spacing */
+  --submenu-indent-1: 24px; /* rientro riga figlio (testo) */
+  --submenu-indent-2: 36px; /* rientro riga nipote */
+  --submenu-block-pad-x: 6px; /* padding orizzontale area gruppo figli */
+  --submenu-block-pad-y: 6px;
+  --submenu-hover-text: #ffffff;
+  --submenu-hover-shadow: 0 3px 8px rgba(245, 242, 242, 0.377); /* padding verticale area gruppo figli */
+
+  --submenu-active-bg: rgba(0, 0, 0, 0.12);
+  --submenu-active-text: #fff;
+  --submenu-active-icon: #fff;
+
+  /* tipografia */
+  --submenu-font-size: 0.8rem; /* dimensione testi figli */
+  --submenu-font-weight: 500; /* peso testi figli */
+
+  --submenu-item-minh: 40px; /* altezza target (36/40/44) */
+  --submenu-item-py: 8px; /* padding verticale interno */
+  /* contenimento */
+  --sidenav-z: 1100; /* z-index del drawer (se serve) */
+}
+
+/* Limita larghezza massima degli item senza figli */
+.hover-expand .MuiDrawer-paper .sidenav-item-inner {
+  width: 85%; /* si adatta al Drawer */
+  max-width: 100%; /* non esce fuori */
+}
+
+/* sidebar aperta: testi dei figli più piccoli */
+.hover-expand .MuiDrawer-paper:hover .submenu-list .MuiListItemText-root .MuiTypography-root,
+.hover-expand .MuiDrawer-paper:hover .submenu-list .MuiListItemText-primary {
+  font-size: var(--submenu-font-size) !important;
+  font-weight: var(--submenu-font-weight) !important;
+}
+
+/* Sidebar APERTA: hover dei figli */
+.hover-expand .MuiDrawer-paper:hover .submenu-list .sidenav-item-inner {
+  transition: var(--submenu-transition);
+}
+
+.hover-expand .MuiDrawer-paper:hover .submenu-list .sidenav-item-inner:hover {
+  background: var(--submenu-hover-bg);
+  box-shadow: var(--submenu-hover-shadow);
+}
+
+/* Colori di testo e icona in hover (opzionale) */
+.hover-expand .MuiDrawer-paper:hover .submenu-list .sidenav-item-inner:hover .MuiListItemText-root,
+.hover-expand
+  .MuiDrawer-paper:hover
+  .submenu-list
+  .sidenav-item-inner:hover
+  .MuiListItemText-root
+  .MuiTypography-root {
+  color: var(--submenu-hover-text) !important;
+}
+
+.hover-expand .MuiDrawer-paper:hover .submenu-list .sidenav-item-inner:hover .MuiListItemIcon-root,
+.hover-expand
+  .MuiDrawer-paper:hover
+  .submenu-list
+  .sidenav-item-inner:hover
+  .MuiListItemIcon-root
+  > svg {
+  color: var(--submenu-hover-icon) !important;
+  fill: var(--submenu-hover-icon) !important;
+}
+
+/* Singola riga figlio: rientro e hover */
+.hover-expand .MuiDrawer-paper:hover .submenu-list .sidenav-item-inner {
+  background: transparent; /* il blocco lo dà il contenitore */
+  padding-left: var(--submenu-indent-1) !important; /* rientro testo */
+  border-radius: 8px;
+  transition: background-color 0.15s ease, padding-left 0.15s ease;
+}
+.hover-expand .MuiDrawer-paper:hover .submenu-list .sidenav-item-inner:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.hover-expand .MuiDrawer-paper:hover .submenu-list .submenu-list .sidenav-item-inner {
+  padding-left: var(--submenu-indent-2) !important;
+}
+
+/* Drawer base: transizione fluida */
+.hover-expand .MuiDrawer-paper {
+  transition: width 0.18s ease;
+  overflow: visible;
+}
+
+/* COLLAPSED = quando NON in hover */
+.hover-expand .MuiDrawer-paper:not(:hover) {
+  width: 90px !important; /* ⬅️ valore collapsed */
+}
+
+/* EXPANDED = quando è in hover */
+.hover-expand .MuiDrawer-paper:hover {
+  width: 260px !important; /* ⬅️ valore expanded */
+}
+
+/* expanded */
+.hover-expand:hover .MuiDrawer-paper {
+  width: var(--nav-expanded) !important;
+}
+
+/* 3) Layout voci in stato expanded (base) */
+.hover-expand .MuiDrawer-paper .MuiList-root {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.hover-expand .MuiDrawer-paper .MuiListItemButton-root {
+  justify-content: flex-start;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+
+.hover-expand .MuiDrawer-paper .MuiListItemIcon-root {
+  width: auto !important;
+  min-width: 44px !important; /* spazio icona coerente */
+  margin-right: 0 !important;
+  display: grid;
+  place-items: center;
+}
+
+.hover-expand .MuiDrawer-paper .MuiListItemText-root {
+  flex: 1 1 auto !important;
+  opacity: 1 !important;
+  max-width: 400px !important;
+  overflow: hidden;
+  white-space: nowrap;
+  transform: none !important;
+  transition: opacity 0.12s ease, transform 0.12s ease, max-width 0.12s ease;
+}
+
+/* 4) Layout voci in stato collapsed (solo icone) */
+.hover-expand:not(:hover) .MuiDrawer-paper .MuiListItemButton-root {
+  justify-content: center;
+  padding-left: 6px !important;
+  padding-right: 6px !important;
+}
+
+.hover-expand:not(:hover) .MuiDrawer-paper .MuiListItemIcon-root {
+  min-width: 0 !important;
+  width: 100% !important; /* icona davvero centrata */
+  justify-content: center;
+}
+
+.hover-expand:not(:hover) .MuiDrawer-paper .MuiListItemText-root {
+  flex: 0 0 0 !important;
+  opacity: 0 !important;
+  max-width: 0 !important;
+  transform: translateX(-4px);
+}
+
+/* 5) Label testo: mostra/nascondi legato SOLO a :hover del contenitore */
+.hover-expand:hover .MuiListItemText-root .MuiTypography-root {
+  display: inline !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  max-width: 600px !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+  transform: none !important;
+}
+
+.hover-expand:not(:hover) .MuiListItemText-root .MuiTypography-root {
+  display: none !important;
+  opacity: 0 !important;
+  max-width: 0 !important;
+}
+
+/* 6) Brand/Logo swap in alto — immediato, senza delay */
+.brand-wrapper {
+  /* Mantieni altezza stabile per evitare micro-salto */
+  min-height: 44px; /* regola a piacere se vuoi più altezza */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Expanded: mostra brand-expanded, nascondi brand-collapsed */
+.hover-expand .brand-expanded {
+  display: flex !important;
+}
+.hover-expand .brand-collapsed {
+  display: none !important;
+}
+
+/* Collapsed: inverti */
+.hover-expand:not(:hover) .brand-expanded {
+  display: none !important;
+}
+.hover-expand:not(:hover) .brand-collapsed {
+  display: flex !important;
+}
+
+/* Dimensioni immagini brand (puoi ritoccare le altezze) */
+.hover-expand .brand-expanded-img {
+  height: 30px;
+  width: auto;
+}
+.hover-expand .brand-collapsed-img {
+  height: 48px;
+  width: auto;
+  image-rendering: -webkit-optimize-contrast;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* (facoltativo) piccolo respiro in collassato */
+.hover-expand:not(:hover) .brand-wrapper {
+  padding-top: 12px !important;
+}
+
+/* 7) Logout item — coerente con le altre voci (niente duplicati) */
+.hover-expand .logout-item {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  height: 44px;
+  margin: 8px 12px 12px;
+  padding: 0 12px;
+  border-radius: 8px;
+  color: inherit;
+}
+
+.hover-expand .logout-item:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+@media (prefers-color-scheme: dark) {
+  .hover-expand .logout-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* In collapsed l'icona resta centrata; il testo è già gestito dalle regole generiche */
+.hover-expand:not(:hover) .logout-item {
+  justify-content: center !important;
+  margin: 8px 6px 10px;
+  padding: 0 !important;
+}
+.hover-expand:not(:hover) .logout-item .MuiListItemIcon-root {
+  min-width: 0 !important;
+  width: 100% !important;
+  justify-content: center;
+}
+.hover-expand:not(:hover) .logout-item .MuiListItemIcon-root > svg {
+  font-size: 20px;
+}
+
+/* 8) (OPZIONALE) Se usi titoli di sezione con class .nav-section-title */
+.hover-expand:hover .nav-section-title {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 0.85 !important;
+  max-width: 100% !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+.hover-expand:not(:hover) .nav-section-title {
+  opacity: 0 !important;
+  max-width: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  transition: opacity 0.12s ease, max-width 0.12s ease, padding 0.12s ease;
+}
+
+/* collapsed: contenuto più a sinistra */
+.hover-expand ~ .app-content {
+  margin-left: var(--nav-collapsed) !important;
+  transition: margin-left 0.4s ease;
+}
+
+/* expanded su hover: contenuto più a destra */
+.hover-expand:hover ~ .app-content {
+  margin-left: 0px !important;
+}
+
+/* ===== Allineamento perfetto in stato COLLAPSED (drawer non in hover) ===== */
+
+/* Struttura a 2 colonne: [ icona centrata | box freccia (o placeholder) ] */
+.hover-expand .MuiDrawer-paper:not(:hover) .sidenav-item-inner {
+  display: grid !important;
+  grid-template-columns: 1fr 20px; /* padding elementi sidebar chiusa */
+  align-items: center;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* Icona: niente minWidth MUI e centrata sempre */
+.hover-expand .MuiDrawer-paper:not(:hover) .sidenav-item-inner .MuiListItemIcon-root {
+  min-width: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+
+/* Nasconde il testo solo in collapsed (lo lasciamo com'è in hover/expanded) */
+.hover-expand .MuiDrawer-paper:not(:hover) .sidenav-item-inner .MuiListItemText-root {
+  display: none !important;
+}
+
+/* Slot freccia: stessa larghezza su tutte le righe, foglie incluse */
+.hover-expand .MuiDrawer-paper:not(:hover) .sidenav-item-inner .chevron-slot {
+  width: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Niente figli espansi in collapsed (evita rientri/shift) */
+.hover-expand .MuiDrawer-paper:not(:hover) .MuiCollapse-root {
+  display: none !important;
+}
+
+/* In stato EXPANDED (hover) torna layout normale */
+.hover-expand .MuiDrawer-paper:hover .sidenav-item-inner {
+  display: flex !important; /* il layout originale di MD2 */
+}
+
+/* Livello 1: fondo leggermente più scuro + indent testo */
+.hover-expand .MuiDrawer-paper:hover .submenu-list .sidenav-item-inner {
+  background-color: rgba(0, 0, 0, 0.04); /* tono leggermente più scuro */
+  border-radius: 8px; /* bordi soft come MD2 */
+  padding-left: 24px !important; /* indent più marcata */
+  transition: background-color 0.15s ease, padding-left 0.15s ease;
+}
+
+/* Hover sugli item del sottomenù (feedback) */
+.hover-expand .MuiDrawer-paper:hover .submenu-list .sidenav-item-inner:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+/* Livello 2 (sottomenù dei sottomenù): un filo più scuro e più rientrato */
+.hover-expand .MuiDrawer-paper:hover .submenu-list .submenu-list .sidenav-item-inner {
+  background-color: rgba(0, 0, 0, 0.06);
+  padding-left: 36px !important;
+}
+
+/* Se usi tema scuro per la sidenav, alza l’alpha verso il chiaro */
+.hover-expand .MuiDrawer-paper[data-theme="dark"]:hover .submenu-list .sidenav-item-inner {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+.hover-expand
+  .MuiDrawer-paper[data-theme="dark"]:hover
+  .submenu-list
+  .submenu-list
+  .sidenav-item-inner {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Mantieni allineate icone e chevron anche nei submenu */
+.hover-expand .MuiDrawer-paper:hover .submenu-list .sidenav-item-inner .MuiListItemIcon-root {
+  min-width: 36px; /* coerente con i tuoi item principali */
+}
+.hover-expand .MuiDrawer-paper:hover .submenu-list .sidenav-item-inner .chevron-slot {
+  margin-left: 6px; /* piccolo respiro prima della freccia */
+}
+
+/*  A) Tutte le voci: grassetto di base  */
+.hover-expand .MuiDrawer-paper .sidenav-item-inner .MuiListItemText-root .MuiTypography-root {
+  font-weight: 500 !important;
+}
+
+/*  B) Ma per i figli (cioè dentro .submenu-list) ripristina il peso definito per i submenu  */
+.hover-expand
+  .MuiDrawer-paper
+  .submenu-list
+  .sidenav-item-inner
+  .MuiListItemText-root
+  .MuiTypography-root {
+  font-weight: var(--submenu-font-weight) !important; /* di default 500 */
+}
+/* ===========================
+   SIDENAV PINNATA (sempre aperta)
+   =========================== */
+.hover-expand.pinned .MuiDrawer-paper {
+  width: var(--nav-expanded) !important;
+}
+
+/* Testi SEMPRE visibili in pinned (override del collapsed) */
+.hover-expand.pinned .MuiDrawer-paper .MuiListItemText-root {
+  display: block !important;
+  flex: 1 1 auto !important;
+  opacity: 1 !important;
+  max-width: 400px !important;
+  transform: none !important;
+}
+
+/* Brand sempre in versione expanded */
+.hover-expand.pinned .brand-expanded {
+  display: flex !important;
+}
+.hover-expand.pinned .brand-collapsed {
+  display: none !important;
+}
+
+/* Layout list item in modalità expanded */
+.hover-expand.pinned .MuiDrawer-paper .sidenav-item-inner {
+  display: flex !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+.hover-expand.pinned .MuiDrawer-paper .MuiListItemIcon-root {
+  min-width: 44px !important;
+  width: auto !important;
+  justify-content: center;
+}
+
+/* Non nascondere i submenu quando pinned */
+.hover-expand.pinned .MuiDrawer-paper .MuiCollapse-root {
+  display: block !important;
+}
+
+/* ====== PINNED: forza lo stato "expanded" anche fuori dall'hover ====== */
+
+/* larghezza sempre expanded, anche in hover */
+.hover-expand.pinned .MuiDrawer-paper,
+.hover-expand.pinned .MuiDrawer-paper:hover {
+  width: var(--nav-expanded) !important;
+}
+
+/* layout dei bottoni come in expanded (contro justify:center del collapsed) */
+.hover-expand.pinned .MuiDrawer-paper .MuiListItemButton-root,
+.hover-expand.pinned:not(:hover) .MuiDrawer-paper .MuiListItemButton-root,
+.hover-expand.pinned .MuiDrawer-paper:not(:hover) .MuiListItemButton-root {
+  justify-content: flex-start !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+
+/* niente grid nei list item quando pinned (contro la regola collapsed) */
+.hover-expand.pinned .MuiDrawer-paper .sidenav-item-inner,
+.hover-expand.pinned:not(:hover) .MuiDrawer-paper .sidenav-item-inner,
+.hover-expand.pinned .MuiDrawer-paper:not(:hover) .sidenav-item-inner {
+  display: flex !important;
+  grid-template-columns: none !important;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+
+/* icone: min-width e width come in expanded (contro width:100% del collapsed) */
+.hover-expand.pinned .MuiDrawer-paper .MuiListItemIcon-root,
+.hover-expand.pinned:not(:hover) .MuiDrawer-paper .MuiListItemIcon-root,
+.hover-expand.pinned .MuiDrawer-paper:not(:hover) .MuiListItemIcon-root {
+  min-width: 44px !important;
+  width: auto !important;
+  justify-content: center !important;
+}
+
+/* il container testo NON deve sparire (contro display:none del collapsed) */
+.hover-expand.pinned .MuiDrawer-paper .sidenav-item-inner .MuiListItemText-root,
+.hover-expand.pinned:not(:hover) .MuiDrawer-paper .sidenav-item-inner .MuiListItemText-root,
+.hover-expand.pinned .MuiDrawer-paper:not(:hover) .sidenav-item-inner .MuiListItemText-root {
+  display: block !important;
+  flex: 1 1 auto !important;
+  opacity: 1 !important;
+  max-width: 400px !important;
+  transform: none !important;
+}
+
+/* la TYPO dentro ListItemText NON deve sparire (questa è quella che mancava) */
+.hover-expand.pinned .MuiListItemText-root .MuiTypography-root,
+.hover-expand.pinned:not(:hover) .MuiListItemText-root .MuiTypography-root,
+.hover-expand.pinned .MuiDrawer-paper:not(:hover) .MuiListItemText-root .MuiTypography-root {
+  display: inline !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  max-width: 600px !important;
+  transform: none !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
+  overflow: hidden !important;
+}
+
+/* i submenu non si devono nascondere in pinned */
+.hover-expand.pinned .MuiDrawer-paper .MuiCollapse-root,
+.hover-expand.pinned:not(:hover) .MuiDrawer-paper .MuiCollapse-root,
+.hover-expand.pinned .MuiDrawer-paper:not(:hover) .MuiCollapse-root {
+  display: block !important;
+}
+
+/* il contenuto principale non deve arretrare come in collapsed */
+.hover-expand.pinned ~ .app-content {
+  margin-left: 0 !important;
+}

@@ -1,0 +1,205 @@
+/* src/diagram/diagram-editor/src/App.css */
+
+/* reset di base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* il container principale del diagram editor:
+   flex orizzontale, prende 100% di larghezza e altezza
+   (è figlio della riga 1fr del grid) */
+.app-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* sidebar a sinistra, 250px fissi, scroll verticale */
+.sidebar-container {
+  flex: 0 0 250px;
+  min-width: 250px;
+  height: 85%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #f8f8f8;
+  border-right: 2px solid #ddd;
+  padding: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.stepper-container {
+  background-color: #f5f5f5;
+  padding: 12px 0; /* solo sopra/sotto */
+  border-bottom: 1px solid #ddd;
+}
+
+/* Inner wrapper: fissa la larghezza e centra */
+.stepper-inner {
+  max-width: 600px; /* scegli la larghezza che preferisci */
+  margin: 0 auto; /* centra orizzontalmente */
+  padding: 0 16px; /* un po’ di spazio ai lati */
+  min-height: 0;
+}
+
+/* area di disegno a destra, occupa tutto lo spazio rimanente */
+.reactflow-wrapper {
+  flex: 1 1 0;
+  height: 85%;
+  position: relative;
+  background-color: #fafafa;
+}
+
+/* il vero componente ReactFlow riempie il suo wrapper */
+.react-flow {
+  width: 100%;
+  height: 100%;
+}
+
+/* stili per i nodi e gli edge */
+.react-flow__node {
+  transition: transform 0.1s;
+}
+.react-flow__node:hover {
+  transform: scale(1.02);
+}
+.react-flow__edge,
+.react-flow__edge-path {
+  stroke: #555;
+  stroke-width: 1.5;
+}
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #784be8;
+  stroke-width: 2;
+}
+.react-flow__node.selected {
+  box-shadow: 0 0 0 2px #784be8;
+}
+
+/* messaggio "canvas vuoto" */
+.empty-canvas-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #999;
+  font-size: 16px;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* bottoni Clean & Export */
+.clean-button,
+.export-button {
+  border: none;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 12px;
+  min-width: 48px;
+  min-height: 48px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.clean-button:hover,
+.export-button:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* colori personalizzati */
+.clean-button {
+  background-color: #5ea2c6;
+  color: #fff;
+}
+.clean-button:hover {
+  background-color: #3143e3;
+}
+.export-button {
+  background-color: #34d399;
+  color: #fff;
+}
+.export-button:hover {
+  background-color: #10b981;
+}
+
+/* permetti ai drawer di uscire dai contenitori senza essere tagliati */
+.app-container,
+.reactflow-wrapper {
+  overflow: visible !important;
+}
+
+/* il drawer degli edge deve stare “sotto” i bottoni export/clean */
+.protocol-panel {
+  z-index: 100; /* più basso del panel dei bottoni */
+}
+
+/* forziamo il panel (export/clean) sopra tutto */
+.react-flow__panel {
+  z-index: 1000 !important;
+}
+
+/* permetti ai pannelli di uscire dai contenitori */
+.diagram-page,
+.app-container,
+.SplitPane,
+.reactflow-wrapper {
+  overflow: visible !important;
+}
+
+/* mantieni panel export/clean sempre in primo piano */
+.react-flow__panel {
+  z-index: 1000 !important;
+}
+
+/* 1) Assicurati che il wrapper di ReactFlow lasci visibili i suoi figli assoluti */
+.reactflow-wrapper {
+  position: relative; /* per ancorare i drawer */
+  overflow: visible !important;
+}
+
+/* 2) Se usi SplitPane, fai in modo che le sue “Pane” non nascondano i drawer */
+.SplitPane .Pane1,
+.SplitPane .Pane2 {
+  overflow: visible !important;
+}
+
+/* 3) Metti i bottoni export/clean sempre davanti a tutto */
+.react-flow__panel {
+  z-index: 1000 !important;
+}
+
+.react-flow__connection {
+  position: relative;
+  z-index: 1000 !important;
+}
+
+/* 2) Mantieni i nodi griglia dietro le edges */
+.react-flow__nodes {
+  position: relative;
+  z-index: 500;
+}
+
+/* 3) Le etichette delle edges restino in primo piano */
+.react-flow__edge-label {
+  position: relative;
+  z-index: 1100 !important;
+}
+
+.reactflow-wrapper {
+  overflow: hidden;
+}
+
+.continue-button {
+  background: #1976d2;
+  color: white;
+  border: none;
+  padding: 0 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}

@@ -1,0 +1,35 @@
+{
+	"folders": {},
+	"connections": {
+		"sqlite_jdbc-194f9f7c38b-354c3b2a592f82c6": {
+			"provider": "sqlite",
+			"driver": "sqlite_jdbc",
+			"name": "TAT_Database.db",
+			"save-password": true,
+			"configuration": {
+				"database": "C:\\Users\\raffaele.c.sannino\\Documents\\VS_Project\\TAT_Project_v2\\backend\\database\\TAT_Database.db",
+				"url": "jdbc:sqlite:C:\\Users\\raffaele.c.sannino\\Documents\\VS_Project\\TAT_Project_v2\\backend\\database\\TAT_Database.db",
+				"configurationType": "MANUAL",
+				"type": "dev",
+				"closeIdleConnection": true,
+				"auth-model": "native"
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false,
+			"smart-commit": false,
+			"smart-commit-recover": true,
+			"auto-close-transactions": true,
+			"close-transactions-period": 1800,
+			"auto-close-connections": true,
+			"close-connections-period": 14400
+		}
+	}
+}

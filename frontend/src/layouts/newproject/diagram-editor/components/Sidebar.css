@@ -1,0 +1,165 @@
+.sidebar {
+  width: 280px;
+  background: #f7f7fa;
+  color: #111827;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  overflow-y: auto;
+  border-right: 1px solid #e5e7eb;
+}
+
+.sidebar-logo {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.sidebar-section {
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  color: #6b7280;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 8px;
+}
+
+.sidebar-item {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 8px 4px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: grab;
+  transition: background 0.2s, transform 0.1s, border-color 0.2s;
+}
+
+.sidebar-item:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+  transform: translateY(-2px);
+}
+
+.sidebar-item:active {
+  cursor: grabbing;
+  transform: translateY(0);
+}
+
+.drag-handle {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  font-size: 0.875rem;
+  color: #9ca3af;
+  cursor: grab;
+}
+
+.sidebar-icon-img {
+  width: 32px;
+  height: 32px;
+  margin: 8px 0;
+  object-fit: contain;
+}
+
+.item-label {
+  font-size: 0.75rem;
+  text-align: center;
+  line-height: 1.2;
+  color: #1f2937;
+  padding: 0 4px;
+}
+.sidebar-logo {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.sidebar-logo img {
+  max-width: 100%;
+  height: auto;
+  display: inline-block;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.section-toggle {
+  margin-left: 8px;
+  color: #6b7280;
+}
+
+/* Header: riga piena, sticky, niente sfondo bianco */
+.sb-header-min {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  width: 100%;
+  padding: 12px 14px 10px;
+  display: grid;
+  grid-template-columns: 1fr auto; /* spinge il titolo a destra */
+  align-items: center;
+  background: inherit; /* eredita lo sfondo della sidebar */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06); /* separazione molto leggera */
+}
+
+/* Titolo elegante, tipografico */
+.sb-title-min {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #334155; /* slate-700 (sobrio) */
+  opacity: 0.9;
+  position: relative;
+  display: inline-block;
+  transform: translateY(-7px);
+}
+
+.sb-title-min::before {
+  content: "";
+  position: absolute;
+  right: calc(100% + 10px);
+  top: calc(50% + 3px);
+  width: 6px;
+  height: 6px;
+  background: #4f46e5;
+  transform: translateY(-50%);
+  border-radius: 999px; /* pallino */
+  box-shadow: 0 0 0 1px rgba(79, 70, 229, 0.22);
+  opacity: 0.9;
+}
+
+/* Supporto dark mode (se l'app lo usa) */
+@media (prefers-color-scheme: dark) {
+  .sb-header-min {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+  .sb-title-min {
+    color: #e5e7eb; /* slate-200 */
+    opacity: 0.95;
+  }
+  .sb-title-min::before {
+    background: linear-gradient(90deg, rgba(229, 231, 235, 0), rgba(229, 231, 235, 0.35));
+  }
+}
+
+.sb-header-min + * {
+  margin-top: 30px; /* aumenta/diminuisci a piacere: 8–16px */
+}

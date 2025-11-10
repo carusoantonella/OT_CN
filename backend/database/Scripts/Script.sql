@@ -1,0 +1,1 @@
+SELECT COUNT(*) FROM SM_CVE WHERE project_id = 19;

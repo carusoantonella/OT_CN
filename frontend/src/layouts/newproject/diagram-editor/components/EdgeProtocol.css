@@ -1,0 +1,77 @@
+.protocol-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0; /* occupa tutta l’altezza del canvas */
+  width: 300px;
+  background: #fff;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+  z-index: 200; /* sotto il panel export/clean */
+  display: flex;
+  flex-direction: column;
+}
+
+.protocol-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.protocol-header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.protocol-close {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.protocol-body {
+  flex: 1 1 auto;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.protocol-body label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.protocol-body select {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.protocol-footer {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  border-top: 1px solid #eee;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.protocol-btn-cancel,
+.protocol-btn-save {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.protocol-btn-cancel {
+  background: #f0f0f0;
+}
+
+.protocol-btn-save {
+  background: #4caf50;
+  color: white;
+}
