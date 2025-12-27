@@ -1,0 +1,12 @@
+<diagram version="1.0" date="2025-11-22T01:20:32.301Z">
+    <elements id="IoTDevice-a5652b14-723b-448d-97a3-3b784bdbe74f" label="IoT Device" x="270.7421280618916" y="823.0230526794071" nature="IoTDevice" iconName="IoTDevice"/>
+    <groups id="group-5d32f6a4-23d8-4904-b41c-d5b72a6af1ff" label="On-Premise Area1" x="115.49996948242188" y="247.99998474121094" width="499" height="362" nature="group" groupType="onPremise" iconName="group">
+        <elements id="Subnet-b21d42fc-db71-4d54-af02-a441f9cd818d" label="Subnet" x="153.9707795689834" y="339.29376528316" nature="Subnet" iconName="Subnet" parentGroupId="group-5d32f6a4-23d8-4904-b41c-d5b72a6af1ff" parentGroupNodeId="group-5d32f6a4-23d8-4904-b41c-d5b72a6af1ff" parentGroupLogicalId="onPremise" parentLabel="On-Premise Area1"/>
+        <elements id="Internet-5f011a94-a4b9-4d44-bcab-86e5c35f1ca2" label="Internet" x="400.0065499338476" y="445.6680542350278" nature="Internet" iconName="Internet"/>
+    </groups>
+    <groups id="group-decf1cb3-3c4a-42de-a961-6705bf9268f2" label="Cloud Area12" x="350.7993958608748" y="359.23209192938435" width="240" height="220" nature="group" groupType="cloud" iconName="group">
+        <elements id="Internet-5f011a94-a4b9-4d44-bcab-86e5c35f1ca2" label="Internet" x="400.0065499338476" y="445.6680542350278" nature="Internet" iconName="Internet"/>
+    </groups>
+    <connections id="e-69fe0196-4b8b-40c5-aa3a-bbbe9190184c" source="Subnet-b21d42fc-db71-4d54-af02-a441f9cd818d" target="Internet-5f011a94-a4b9-4d44-bcab-86e5c35f1ca2" protocol=""/>
+    <connections id="e-14b85fc7-fa0e-4016-85f0-576882e7da73" source="Internet-5f011a94-a4b9-4d44-bcab-86e5c35f1ca2" target="IoTDevice-a5652b14-723b-448d-97a3-3b784bdbe74f" protocol=""/>
+</diagram>

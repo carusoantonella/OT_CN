@@ -1,0 +1,5 @@
+<diagram version="1.0" date="2025-11-15T23:48:04.946Z">
+    <elements id="Internet-b7bd4e76-ed08-4ac5-b42c-52f1e8644fe9" label="Internet" x="220.01251220703125" y="262.0375213623047" nature="Internet" iconName="Internet"/>
+    <elements id="AppService-cbfdabb3-0798-468c-8c17-af374255ae2b" label="App Service" x="508.0187683105469" y="327.30628204345703" nature="AppService" iconName="AppService"/>
+    <connections id="e-dc699c81-8e7c-4a0b-a67c-45bf3b6b1d9e" source="Internet-b7bd4e76-ed08-4ac5-b42c-52f1e8644fe9" target="AppService-cbfdabb3-0798-468c-8c17-af374255ae2b" protocol="https"/>
+</diagram>

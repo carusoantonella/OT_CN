@@ -233,7 +233,25 @@ export default function Analysis() {
       .finally(() => setSaving(false));
   };
 
-  // Ordino da High → Medium → Low
+  // Normalizza la severità in un set chiuso di valori
+  const normSeverity = (s) => {
+    const val = (s || "").toString().trim().toLowerCase();
+
+    if (!val) return "Info"; // default
+
+    if (val === "critical") return "Critical";
+    if (val === "high") return "High";
+    if (val === "medium" || val === "med") return "Medium";
+    if (val === "low") return "Low";
+    if (val === "info" || val === "informational") return "Info";
+
+    // fallback: tutto ciò che non è tra i precedenti viene considerato Info
+    return "Info";
+  };
+
+  const isInfoSeverity = (s) => normSeverity(s) === "Info";
+
+  // Ordine di severità per sorting
   const severityOrder = {
     Critical: 5,
     High: 4,
@@ -242,34 +260,39 @@ export default function Analysis() {
     Info: 1,
   };
 
-  const sorted = [...detected].sort((a, b) => {
-    const oa = severityOrder[a.severity] ?? 0;
-    const ob = severityOrder[b.severity] ?? 0;
+  // Versione normalizzata dei threat (aggiungiamo severityNorm)
+  const detectedNorm = (detected || []).map((t) => ({
+    ...t,
+    severityNorm: normSeverity(t.severity),
+  }));
+
+  // Ordino per severità normalizzata
+  const sorted = [...detectedNorm].sort((a, b) => {
+    const oa = severityOrder[a.severityNorm] ?? 0;
+    const ob = severityOrder[b.severityNorm] ?? 0;
     return ob - oa;
   });
 
-  // calcolo dei conteggi per ciascuna gravità
-  const criticalCount = detected.filter((t) => t.severity === "Critical").length;
-  const highCount = detected.filter((t) => t.severity === "High").length;
-  const mediumCount = detected.filter((t) => t.severity === "Medium").length;
-  const lowCount = detected.filter((t) => t.severity === "Low").length;
-  // “Info” = qualsiasi altro severity diverso da High/Medium/Low
-  const infoCount = detected.filter(
-    (t) => t.severity !== "High" && t.severity !== "Medium" && t.severity !== "Low"
-  ).length;
+  // calcolo dei conteggi per ciascuna gravità (usando severityNorm)
+  const criticalCount = detectedNorm.filter((t) => t.severityNorm === "Critical").length;
+  const highCount = detectedNorm.filter((t) => t.severityNorm === "High").length;
+  const mediumCount = detectedNorm.filter((t) => t.severityNorm === "Medium").length;
+  const lowCount = detectedNorm.filter((t) => t.severityNorm === "Low").length;
+  const infoCount = detectedNorm.filter((t) => t.severityNorm === "Info").length;
 
   // state per severità selezionata (All, High, Medium, Low, Info)
   const [selectedSeverity, setSelectedSeverity] = useState("All");
 
-  // elenco filtrato in base a selectedSeverity
+  // elenco filtrato in base a selectedSeverity (sempre usando severityNorm)
   const filtered =
     selectedSeverity === "All"
       ? sorted
       : sorted.filter((t) => {
+          const sev = t.severityNorm;
           if (selectedSeverity === "Info") {
-            return t.severity !== "High" && t.severity !== "Medium" && t.severity !== "Low";
+            return sev === "Info"; // stessa logica usata per infoCount
           }
-          return t.severity === selectedSeverity;
+          return sev === selectedSeverity; // Critical/High/Medium/Low
         });
 
   // Palette colori full‐background per severity
@@ -696,12 +719,26 @@ export default function Analysis() {
             </MDTypography>
           ) : (
             filtered.map((t) => {
-              const bgStyle = severityStyles[t.severity] || severityStyles.default;
-              const borderStyle = severityBorder[t.severity] || severityBorder.default;
+              const sev = t.severityNorm || normSeverity(t.severity);
+              const bgStyle = severityStyles[sev] || severityStyles.default;
+              const borderStyle = severityBorder[sev] || severityBorder.default;
+              const categoryLabel = t.category_name || t.category || t.threat_category || "-";
+              const sourceLabel =
+                idToLabel[t.edge_source_label] ||
+                idToLabel[t.source_payload_id] || // fallback se usi i nuovi campi debug
+                t.edge_source_label ||
+                t.source_payload_id ||
+                "-";
 
-              const sourceLabel = idToLabel[t.edge_source_label] || t.edge_source_label;
-              const targetLabel = idToLabel[t.edge_target_label] || t.edge_target_label;
+              const targetLabel =
+                idToLabel[t.edge_target_label] ||
+                idToLabel[t.target_payload_id] ||
+                t.edge_target_label ||
+                t.target_payload_id ||
+                "-";
 
+              const mitigationText =
+                t.possible_mitigation || t.possibleMitigation || t.mitigation || "";
               return (
                 <Paper
                   key={`${t.rule_id}-${t.threat_id}`}
@@ -711,7 +748,7 @@ export default function Analysis() {
                     borderLeft: borderStyle,
                     p: 2,
                     borderRadius: 1,
-                    width: "100%", // si allarga alla cella della griglia
+                    width: "100%",
                   }}
                 >
                   {/* Titolo + Badge severity */}
@@ -723,15 +760,15 @@ export default function Analysis() {
                       variant="subtitle2"
                       sx={{
                         backgroundColor:
-                          t.severity === "Critical"
+                          sev === "Critical"
                             ? "#f80000"
-                            : t.severity === "High"
+                            : sev === "High"
                             ? "#f44336"
-                            : t.severity === "Medium"
+                            : sev === "Medium"
                             ? "#ffeb3b"
-                            : t.severity === "Low"
+                            : sev === "Low"
                             ? "#90caf9"
-                            : t.severity === "Info"
+                            : sev === "Info"
                             ? "#66bb6a"
                             : "#bdbdbd",
                         color: "#fff",
@@ -742,19 +779,31 @@ export default function Analysis() {
                         fontSize: "0.75rem",
                       }}
                     >
-                      {t.severity}
+                      {sev}
                     </MDTypography>
                   </MDBox>
+                  <MDTypography variant="body2" color="text" sx={{ mt: 0.5 }}>
+                    <strong>Source:</strong> {sourceLabel}
+                  </MDTypography>
+
+                  <MDTypography variant="body2" color="text">
+                    <strong>Target:</strong> {targetLabel}
+                  </MDTypography>
 
                   {/* Categoria */}
                   <MDTypography variant="body2" color="text">
-                    <strong>Categoria:</strong> {t.category_name}
+                    <strong>Categoria:</strong> {categoryLabel}
                   </MDTypography>
 
                   {/* Descrizione */}
                   <MDTypography variant="body2" color="text" sx={{ mt: 1 }}>
                     {t.description}
                   </MDTypography>
+                  {mitigationText && (
+                    <MDTypography variant="body2" color="text" sx={{ mt: 1 }}>
+                      <strong>Mitigation:</strong> {mitigationText}
+                    </MDTypography>
+                  )}
                 </Paper>
               );
             })

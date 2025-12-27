@@ -1,129 +1,18 @@
-﻿ID;ID_THREAT;FLOW;SOURCE;TARGET;ATTRIBUTE TARGET;ATTRIBUTE SOURCE
-1;TH11;;; SE.AA.TMCore.ActiveDirectory,SE.AA.TMCore.AzureAD;;
-2;TH12;;GE.AA,GE.AS,GE.DS,GE.P,GE.EI; SE.AA.TMCore.ActiveDirectory,SE.AA.TMCore.AzureAD;;
-3;TH129;;; SE.ID.TMCore.IoTCloudGateway;;
-4;TH1;;; SE.DS.TMCore.SQL,SE.DS.TMCore.HTML5LS,SE.DS.TMCore.AnalysisServices,SE.DS.TMCore.AzureDatabaseforMariaDB,SE.DS.TMCore.AzureDatabaseforMySQL,SE.DS.TMCore.AzureDatabaseforPostgreSQL,SE.DS.TMCore.NoSQL;Azure;
-5;TH13;;SE.EI.TMCore.Browser; SE.AS.TMCore.WebAPI;Blob;
-6;TH10;;; SE.DS.TMCore.SQL,SE.DS.TMCore.HTML5LS,SE.DS.TMCore.AnalysisServices,SE.DS.TMCore.AzureDatabaseforMariaDB,SE.DS.TMCore.AzureDatabaseforMySQL,SE.DS.TMCore.AzureDatabaseforPostgreSQL,SE.DS.TMCore.NoSQL;;
-7;TH21;;; SE.DS.TMCore.CloudStorage,SE.DS.TMCore.NoSQL;;
-8;TH100;;; SE.P.TMCore.WebApp;;target.ProcessesXML is 'Yes'
-9;TH133;;; SE.P.TMCore.IdentityServer;;
-10;TH101;;; SE.P.TMCore.WebApp;;
-11;TH22;;SE.EI.TMCore.Browser; SE.P.TMCore.WebApp,SE.P.TMCore.WCF,SE.AS.TMCore.WebAPI,SE.AA.TMCore.APIApp;;
-12;TH102;;; SE.P.TMCore.WebApp;;
-13;TH23;;SE.EI.TMCore.Browser; SE.P.TMCore.WebApp,SE.P.TMCore.WCF,SE.AS.TMCore.WebAPI,SE.AA.TMCore.APIApp;;
-14;TH103;;SE.EI.TMCore.Browser; SE.P.TMCore.WebApp;;
-15;TH32;;; SE.P.TMCore.WebApp,SE.P.TMCore.WCF,SE.AS.TMCore.WebAPI,SE.AA.TMCore.APIApp;;
-16;TH104;;SE.EI.TMCore.MobileClient;;;
-17;TH35;;SE.ID.TMCore.IoTDevice,SE.ID.TMCore.IoTFieldGateway; SE.ID.TMCore.IoTFieldGateway,SE.ID.TMCore.IoTCloudGateway;;
-18;TH105;;; SE.DS.TMCore.SQL,SE.DS.TMCore.HTML5LS,SE.DS.TMCore.AnalysisServices,SE.DS.TMCore.AzureDatabaseforMariaDB,SE.DS.TMCore.AzureDatabaseforMySQL,SE.DS.TMCore.AzureDatabaseforPostgreSQL;;
-19;TH36;;SE.ID.TMCore.IoTDevice,SE.ID.TMCore.IoTFieldGateway; SE.ID.TMCore.IoTFieldGateway,SE.ID.TMCore.IoTCloudGateway;;
-20;TH106;;; SE.AS.TMCore.WebAPI;;
-21;TH40;;SE.ID.TMCore.IoTDevice,SE.ID.TMCore.IoTFieldGateway; SE.ID.TMCore.IoTCloudGateway;;
-22;TH107;;SE.EI.TMCore.Browser; SE.AS.TMCore.WebAPI;;
-23;TH44;;SE.ID.TMCore.IoTDevice,SE.ID.TMCore.IoTFieldGateway; SE.ID.TMCore.IoTCloudGateway;;
-24;TH108;;; SE.P.TMCore.WebApp,SE.P.TMCore.WCF,SE.AS.TMCore.WebAPI,SE.AA.TMCore.APIApp;;
-25;TH50;;SE.ID.TMCore.IoTDevice; SE.ID.TMCore.IoTFieldGateway;;
-26;TH109;;; SE.P.TMCore.WebApp,SE.P.TMCore.WCF,SE.AS.TMCore.WebAPI,SE.AA.TMCore.APIApp;;
-27;TH55;;; SE.DS.TMCore.NoSQL;;
-28;TH58;;; SE.AS.TMCore.AzureEventHub;;
-29;TH110;;; SE.AS.TMCore.WebAPI;;
-30;TH7;;; SE.P.TMCore.WebApp,SE.P.TMCore.WCF,SE.AS.TMCore.WebAPI,SE.AA.TMCore.APIApp;;
-31;TH112;;; SE.P.TMCore.IdentityServer;;
-32;TH74;;SE.EI.TMCore.MobileClient; SE.AS.TMCore.WebAPI,SE.P.TMCore.WCF,SE.AA.TMCore.APIApp;;
-33;TH115;;; SE.P.TMCore.IdentityServer;;
-34;TH75;;SE.P.TMCore.WebApp,SE.P.TMCore.WCF,SE.AS.TMCore.WebAPI,SE.AA.TMCore.APIApp ; SE.AA.TMCore.AzureAD;;
-35;TH76;;SE.P.TMCore.WebApp,SE.P.TMCore.WCF,SE.AS.TMCore.WebAPI,SE.AA.TMCore.APIApp; SE.AA.TMCore.ADFS;;
-36;TH8;;SE.EI.TMCore.Browser; SE.P.TMCore.WebApp,SE.P.TMCore.WCF,SE.AS.TMCore.WebAPI,SE.AA.TMCore.APIApp;;
-37;TH118;;; SE.CS.TMCore.DynamicsCRM;;
-38;TH81;;; SE.P.TMCore.WebApp,SE.P.TMCore.WCF,SE.AS.TMCore.WebAPI,SE.AA.TMCore.APIApp;;
-39;TH119;;; SE.CS.TMCore.DynamicsCRM;;
-40;TH85;;; SE.DS.TMCore.CloudStorage;;target.StorageType is 'Blob'
-41;TH86;;; SE.P.TMCore.WebApp,SE.P.TMCore.WCF,SE.AS.TMCore.WebAPI,SE.AA.TMCore.APIApp;;
-42;TH120;;; SE.CS.TMCore.DynamicsCRM;;
-43;TH87;;; SE.P.TMCore.WebApp,SE.P.TMCore.WCF,SE.AS.TMCore.WebAPI,SE.AA.TMCore.APIApp;;
-44;TH121;;; SE.CS.TMCore.DynamicsCRM;;
-45;TH124;;; SE.CS.TMCore.DynamicsCRM;;
-46;TH125;;; SE.CS.TMCore.DynamicsCRM;;
-47;TH126;;; SE.CS.TMCore.DynamicsCRM;;
-48;TH127;;; SE.CS.TMCore.DynamicsCRM;;
-49;TH128;;; SE.CS.TMCore.DynamicsCRMPortal;;
-50;TH132;;; SE.P.TMCore.WCF;;
-51;TH24;;SE.EI.TMCore.Browser; SE.P.TMCore.WebApp,SE.P.TMCore.WCF,SE.AS.TMCore.WebAPI,SE.AA.TMCore.APIApp;;
-52;TH33;;SE.EI.TMCore.Browser; SE.P.TMCore.WebApp,SE.P.TMCore.WCF,SE.AS.TMCore.WebAPI,SE.AA.TMCore.APIApp;;
-53;TH130;;; SE.P.TMCore.WCF;;
-54;TH39;;SE.ID.TMCore.IoTDevice,SE.ID.TMCore.IoTFieldGateway;;;
-55;TH131;;; SE.P.TMCore.WCF;;
-56;TH43;;SE.ID.TMCore.IoTDevice,SE.ID.TMCore.IoTFieldGateway;;;
-57;TH45;;SE.ID.TMCore.IoTFieldGateway,SE.ID.TMCore.IoTCloudGateway; SE.ID.TMCore.IoTDevice,SE.ID.TMCore.IoTFieldGateway;;
-58;TH46;;; SE.ID.TMCore.IoTDevice,SE.ID.TMCore.IoTFieldGateway;;
-59;TH47;;SE.ID.TMCore.IoTDevice;;;
-60;TH61;;; SE.AS.TMCore.AzureEventHub,SE.ID.TMCore.IoTHub,SE.AS.TMCore.ServiceBus,SE.AS.TMCore.EventGrid;;
-61;TH66;;; SE.DS.TMCore.CloudStorage;;target.StorageType is 'Blob'
-62;TH88;;; GE.DS;;source is 'SE.DS.TMCore.AzureDataFactory' or source is 'GE.DS'
-63;TH14;;; SE.DS.TMCore.Cache;;
-64;TH140;;; SE.DS.TMCore.NoSQL;;
-65;TH141;;; SE.DS.TMCore.NoSQL;;not target.CosmosDBFirewallSettings is 'Allow access from selected networks (excluding Azure)'
-66;TH142;;SE.EI.TMCore.HumanUser; GE.AA,GE.DS,GE.AS;;
-67;TH15;;SE.EI.TMCore.MobileClient;;;
-68;TH16;;; SE.AS.TMCore.WebAPI;;
-69;TH17;;; SE.DS.TMCore.CloudStorage;;
-70;TH20;;; SE.DS.TMCore.CloudStorage;;
-71;TH178;;; SE.AS.TMCore.TrafficManager;;
-72;TH3;;; SE.DS.TMCore.SQL,SE.DS.TMCore.HTML5LS,SE.DS.TMCore.AnalysisServices,SE.DS.TMCore.AzureDatabaseforMariaDB,SE.DS.TMCore.AzureDatabaseforMySQL,SE.DS.TMCore.AzureDatabaseforPostgreSQL;;
-73;TH179;;; SE.AS.TMCore.KeyVault;;not target.cd610fb8-4fbd-49c0-966f-8b4634b39262 is 'Allow access from selected networks'
-74;TH30;;; SE.P.TMCore.WebApp;;
-75;TH18;;; SE.DS.TMCore.CloudStorage;;
-76;TH34;;; SE.ID.TMCore.IoTCloudGateway;;
-77;TH180;;; SE.AS.TMCore.KeyVault;;not target.78bf9482-5267-41c6-84fd-bac2fb6ca0b9 is 'True'
-78;TH49;;; SE.ID.TMCore.IoTFieldGateway;;
-79;TH181;;; SE.AS.TMCore.KeyVault;;
-80;TH77;;GE.EI; SE.P.TMCore.WebApp;;target.EnvironmentType is 'Azure'
-81;TH182;;; SE.AS.TMCore.KeyVault;;
-82;TH183;;; SE.AS.TMCore.KeyVault;;target.ae94fa17-596d-476e-a283-0afc166dcf26 is 'Service or User Principal
-83;TH184;;; SE.AS.TMCore.KeyVault;;target.ae94fa17-596d-476e-a283-0afc166dcf26 is 'Service or User Principal
-84;TH185;;; SE.AS.TMCore.KeyVault;;target.ae94fa17-596d-476e-a283-0afc166dcf26 is 'Select'
-85;TH186;;; SE.AS.TMCore.KeyVault;;
-86;TH19;;; SE.DS.TMCore.CloudStorage;;target.StorageType is 'File'
-87;TH2;;; SE.DS.TMCore.SQL;;target.DatabaseTechnologies is 'OnPrem'
-88;TH26;;SE.EI.TMCore.Browser; SE.P.TMCore.WebApp;;
-89;TH27;;SE.EI.TMCore.Browser; SE.P.TMCore.WebApp;;
-90;TH31;;SE.EI.TMCore.MobileClient;;;
-91;TH38;;SE.ID.TMCore.IoTDevice,SE.ID.TMCore.IoTFieldGateway; SE.ID.TMCore.IoTCloudGateway;;
-92;TH5;;; SE.DS.TMCore.SQL,SE.DS.TMCore.HTML5LS,SE.DS.TMCore.AnalysisServices,SE.DS.TMCore.AzureDatabaseforMariaDB,SE.DS.TMCore.AzureDatabaseforMySQL,SE.DS.TMCore.AzureDatabaseforPostgreSQL;;source is 'SE.P.TMCore.WebApp'
-93;TH52;;SE.ID.TMCore.IoTDevice; SE.ID.TMCore.IoTFieldGateway;;
-94;TH53;;; SE.DS.TMCore.NoSQL;;
-95;TH6;;; SE.DS.TMCore.SQL,SE.DS.TMCore.HTML5LS,SE.DS.TMCore.AnalysisServices,SE.DS.TMCore.AzureDatabaseforMariaDB,SE.DS.TMCore.AzureDatabaseforMySQL,SE.DS.TMCore.AzureDatabaseforPostgreSQL,SE.DS.TMCore.NoSQL,SE.DS.TMCore.CloudStorage;;
-96;TH37;;SE.ID.TMCore.IoTDevice,SE.ID.TMCore.IoTFieldGateway; SE.ID.TMCore.IoTCloudGateway;;
-97;TH63;;; SE.DS.TMCore.CloudStorage,SE.DS.TMCore.NoSQL;;
-98;TH65;;; SE.DS.TMCore.CloudStorage;;
-99;TH65;;; SE.DS.TMCore.AzureStorage;;
-100;TH78;;GE.EI; SE.P.TMCore.WebApp;;target.EnvironmentType is 'Azure'
-101;TH4;;; SE.DS.TMCore.SQL,SE.DS.TMCore.HTML5LS,SE.DS.TMCore.AnalysisServices,SE.DS.TMCore.AzureDatabaseforMariaDB,SE.DS.TMCore.AzureDatabaseforMySQL,SE.DS.TMCore.AzureDatabaseforPostgreSQL,SE.DS.TMCore.NoSQL;;
-102;TH79;;GE.EI; SE.P.TMCore.WebApp;;target.EnvironmentType is 'Azure'
-103;TH80;;SE.EI.TMCore.Browser; SE.P.TMCore.WebApp;;
-104;TH41;;SE.ID.TMCore.IoTDevice,SE.ID.TMCore.IoTFieldGateway;;;
-105;TH82;;; SE.DS.TMCore.SQL,SE.DS.TMCore.HTML5LS,SE.DS.TMCore.AnalysisServices,SE.DS.TMCore.AzureDatabaseforMariaDB,SE.DS.TMCore.AzureDatabaseforMySQL,SE.DS.TMCore.AzureDatabaseforPostgreSQL,SE.DS.TMCore.NoSQL;;
-106;TH42;;SE.ID.TMCore.IoTFieldGateway,SE.ID.TMCore.IoTCloudGateway; SE.ID.TMCore.IoTDevice;;
-107;TH83;;; SE.AS.TMCore.WebAPI;;
-108;TH48;;SE.ID.TMCore.IoTDevice,SE.ID.TMCore.IoTFieldGateway;;;
-109;TH51;;SE.ID.TMCore.IoTDevice,SE.ID.TMCore.IoTCloudGateway; SE.ID.TMCore.IoTFieldGateway;;
-110;TH54;;; SE.DS.TMCore.NoSQL;;
-111;TH56;;; SE.DS.TMCore.NoSQL;;
-112;TH57;;; SE.DS.TMCore.NoSQL;;
-113;TH59;;; SE.AS.TMCore.AzureEventHub,SE.ID.TMCore.IoTHub,SE.AS.TMCore.ServiceBus,SE.AS.TMCore.EventGrid;;
-114;TH60;;; SE.AS.TMCore.AzureEventHub,SE.ID.TMCore.IoTHub,SE.AS.TMCore.ServiceBus,SE.AS.TMCore.EventGrid;;
-115;TH62;;; SE.AS.TMCore.AzureEventHub,SE.ID.TMCore.IoTHub,SE.AS.TMCore.ServiceBus,SE.AS.TMCore.EventGrid;;
-116;TH64;;; SE.DS.TMCore.CloudStorage;;target.StorageType is 'Table'
-117;TH67;;; GE.DS;;
-118;TH89;;; SE.DS.TMCore.SQL,SE.DS.TMCore.HTML5LS,SE.DS.TMCore.AnalysisServices,SE.DS.TMCore.AzureDatabaseforMariaDB,SE.DS.TMCore.AzureDatabaseforMySQL,SE.DS.TMCore.AzureDatabaseforPostgreSQL;;
-119;TH9;;SE.EI.TMCore.Browser; SE.P.TMCore.WebApp;;
-120;TH90;;SE.DS.TMCore.AzureDataFactory,SE.AS.TMCore.LogicApp;;;
-121;TH91;;; SE.AA.TMCore.AzureAD;;
-122;TH92;;SE.ID.TMCore.IoTFieldGateway;;;
-123;TH94;;; SE.P.TMCore.WebApp;;
-124;TH95;;SE.EI.TMCore.MobileClient;;;
-125;TH96;;; SE.P.TMCore.WebApp,SE.P.TMCore.WCF,SE.AS.TMCore.WebAPI,SE.AA.TMCore.APIApp;;
-126;TH97;;; SE.AS.TMCore.WebAPI;;
-127;TH98;;; SE.P.TMCore.WebApp;;
-128;TH99;;SE.EI.TMCore.Browser; SE.P.TMCore.WebApp;;
+﻿CASO ;SOURCE;TARGET;FLOW;ATTRIBUTE TARGET;ATTRIBUTE SOURCE;SOURCE_GROUP;TARGET_GROUP
+1;;;;;;;
+2;X;;;;;;
+3;;X;;;;;
+4;;;X;;;;
+5;X;;X;;;;
+6;;X;X;;;;
+7;X;X;X;;;;
+8;X;X;X;;;X;X
+9;;;;;;X;
+10;;;;;;;X
+11;X;;;;;X;
+12;X;;X;;;X;
+13;;X;;;;;X
+14;;X;X;;;;X
+15;X;;X;;;;X
+16;X;;;;;;X
+17;;X;;;;X;

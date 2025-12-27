@@ -20,12 +20,14 @@ import eventHubIcon from "../diagram-editor/assets/event-hub.png";
 import vpnGatewayIcon from "../diagram-editor/assets/vpn-gateway.png";
 import appGwWafIcon from "../diagram-editor/assets/app-gateway-waf.png";
 import firewallAzIcon from "../diagram-editor/assets/azure-firewall.png";
+
 // on-premise
 import serverRackIcon from "../diagram-editor/assets/server-rack.png";
 import sanIcon from "../diagram-editor/assets/san-storage.png";
 import vmIcon from "../diagram-editor/assets/virtual-machine.png";
 import firewallHwIcon from "../diagram-editor/assets/firewall-hw.png";
 import switchIcon from "../diagram-editor/assets/network-switch.png";
+
 // networking
 import vnetIcon from "../diagram-editor/assets/virtual-switch.png";
 import subnetIcon from "../diagram-editor/assets/subnet.png";
@@ -33,12 +35,9 @@ import lbIcon from "../diagram-editor/assets/load-balancer.png";
 import internetIcon from "../diagram-editor/assets/internet.png";
 import nsgIcon from "../diagram-editor/assets/nsg.png";
 import iotDevice from "../diagram-editor/assets/iot-device.png";
-// OT generic icon
+
+// OT / IT (same icon as requested)
 import genericOTServerIcon from "../diagram-editor/assets/OT/generic-server.png";
-import wirelessIcon from "../diagram-editor/assets/OT/accesspoint.png";
-import pamIcon from "../diagram-editor/assets/OT/PAM.png";
-import smtpIcon from "../diagram-editor/assets/OT/smtp-server.png";
-import vpnIcon from "../diagram-editor/assets/OT/vpn.png";
 
 export default function tableData(items, onEdit) {
   const iconMap = {
@@ -66,92 +65,61 @@ export default function tableData(items, onEdit) {
     Internet: internetIcon,
     NSG: nsgIcon,
     IoTDevice: iotDevice,
+
     group: <FaProjectDiagram className="node-icon-fa" />,
     InternalUser: <FaUser size={30} />,
     ExternalUser: <FaUserAlt size={30} />,
     PrivilegedUser: <FaUserShield size={30} />,
     ServiceAccount: <FaUserCog size={30} />,
 
-    // OT types (must match Sidebar.jsx)
-    "GE.EWS": genericOTServerIcon,
-    "GE.OWS": genericOTServerIcon,
-    "GE.HISTORIAN-REPLICA": genericOTServerIcon,
-    "GE.HISTORIAN": genericOTServerIcon,
-    "GE.INDUSTRIAL-FW": genericOTServerIcon,
-    "GE.NGFW": genericOTServerIcon,
-    "GE.DC": genericOTServerIcon,
-    "GE.PRIMARY-BCK": genericOTServerIcon,
-    "GE.SECONDARY-BCK": genericOTServerIcon,
-    "GE.NAS": genericOTServerIcon,
-    "GE.PATCHING": genericOTServerIcon,
-    "GE.AV": genericOTServerIcon,
-    "GE.LOGGING": genericOTServerIcon,
-    "GE.JUMPSERVER": genericOTServerIcon,
-    "GE.WS": genericOTServerIcon,
-    "GE.APPSERVER": genericOTServerIcon,
-    "GE.DATATRANSFER": genericOTServerIcon,
-    "GE.NMS": genericOTServerIcon,
-    "GE.HMI": genericOTServerIcon,
-    "GE.PLC": genericOTServerIcon,
-    "GE.RTU": genericOTServerIcon,
-    "GE.OPC": genericOTServerIcon,
-    "GE.DCS": genericOTServerIcon,
-    "GE.SCADA": genericOTServerIcon,
+    // OT nodes (must match Sidebar.jsx / GenericNode.jsx)
+    "OT.HMI": genericOTServerIcon,
+    "OT.PLC": genericOTServerIcon,
+    "OT.RTU": genericOTServerIcon,
+    "OT.OPC": genericOTServerIcon,
+    "OT.OPCA": genericOTServerIcon,
+    "OT.DCS": genericOTServerIcon,
+    "OT.SCADA": genericOTServerIcon,
+    "OT.SIS": genericOTServerIcon,
+    "OT.ESD": genericOTServerIcon,
+    "OT.BMS": genericOTServerIcon,
+    "OT.IED": genericOTServerIcon,
+    "OT.MNTL": genericOTServerIcon,
+    "OT.SNS": genericOTServerIcon,
+    "OT.ACT": genericOTServerIcon,
+    "OT.FLD": genericOTServerIcon,
+    "OT.PCTRL": genericOTServerIcon,
+    "OT.BLKV": genericOTServerIcon,
+    "OT.CTRLV": genericOTServerIcon,
+    "OT.XMIT": genericOTServerIcon,
 
-    // Safety
-    "SAFETY.SIS": genericOTServerIcon,
-    "SAFETY.ESD": genericOTServerIcon,
-    "SAFETY.BMS": genericOTServerIcon,
-
-    // Other OT
-    "GE.IED": genericOTServerIcon,
-    "ABB.DCS": genericOTServerIcon,
-
-    // PI System
-    "AVEVA.PIINTERFACE": genericOTServerIcon,
-    "AVEVA.PICONNECTOR": genericOTServerIcon,
-    "AVEVA.PIVISION": genericOTServerIcon,
-    "AVEVA.PIASSETFR": genericOTServerIcon,
-    "AVEVA.PIMANUALLOGGER": genericOTServerIcon,
-    "AVEVA.PIDATAARCHIVE": genericOTServerIcon,
-    "AVEVA.PIPROCESSBOOK": genericOTServerIcon,
-    "AVEVA.PIDATALINK": genericOTServerIcon,
-    "AVEVA.PISYSTEMEXPLORER": genericOTServerIcon,
-    "AVEVA.PIBUILDER": genericOTServerIcon,
-    "AVEVA.PIANALYSIS": genericOTServerIcon,
-
-    // AspenTech
-    "ASPENTECH.CLOUDCONNECT": genericOTServerIcon,
-    "ASPENTECH.IP21": genericOTServerIcon,
-    "ASPENTECH.DATASERVER": genericOTServerIcon,
-    "ASPENTECH.SITESERVER": genericOTServerIcon,
-    "ASPENTECH.WS": genericOTServerIcon,
-
-    // on-prem extras
-    "GE.MLAPTOP": genericOTServerIcon,
-    "GE.SMTP": smtpIcon,
-    "GE.PAM": pamIcon,
-    "GE.VPN": vpnIcon,
-
-    // networking extras
-    "GE.WAP": wirelessIcon,
+    // IT nodes (requested to use same OT icon)
+    "IT.SMTP": genericOTServerIcon,
+    "IT.PAM": genericOTServerIcon,
+    "IT.NTP": genericOTServerIcon,
   };
 
   const columns = [
     { Header: "Icona", accessor: "icon", width: "10%", align: "center" },
     { Header: "Label", accessor: "label", align: "left" },
+    { Header: "Zone", accessor: "zone", align: "left" },
     { Header: "Tipo", accessor: "nature", align: "center" },
     { Header: "Proprietà di sicurezza", accessor: "properties", align: "left" },
     { Header: "Azioni", accessor: "actions", align: "center" },
   ];
 
   const rows = items.map((it) => {
-    // 1) scegliamo una chiave per l’icona:
     const meta = it.metadata || {};
+
+    // Icon key resolution aligned with GenericNode:
+    // - prefer metadata.iconName (es. "OT.PLC")
+    // - fallback to it.nature
     const iconKey = meta.iconName || it.nature;
     const iconValue = iconMap[iconKey];
 
-    // 2) costruiamo e restituiamo l’oggetto riga
+    // Zona/gruppo
+    const parentLabel = meta.parentLabel || "-";
+
     return {
       icon: (
         <MDBox
@@ -174,6 +142,11 @@ export default function tableData(items, onEdit) {
           {it.label}
         </MDTypography>
       ),
+      zone: (
+        <MDTypography variant="caption" color="text">
+          {parentLabel}
+        </MDTypography>
+      ),
       nature: (
         <MDTypography variant="caption" color="text">
           Object
@@ -181,37 +154,42 @@ export default function tableData(items, onEdit) {
       ),
       properties: (
         <MDBox display="flex" flexDirection="column" gap={0.5}>
-          {Object.entries(it.displayMetadata ?? meta).map(([k, v]) => {
-            // se è un array, uniscilo con virgole
-            if (Array.isArray(v)) {
+          {Object.entries(it.displayMetadata ?? meta)
+            .filter(
+              ([k]) =>
+                k !== "parentGroupId" &&
+                k !== "parentGroupNodeId" &&
+                k !== "parentGroupLogicalId" &&
+                k !== "parentLabel"
+            )
+            .map(([k, v]) => {
+              if (Array.isArray(v)) {
+                return (
+                  <MDTypography variant="caption" key={k}>
+                    <strong>{k}:</strong> {v.join(", ")}
+                  </MDTypography>
+                );
+              }
+              if (v && typeof v === "object") {
+                return (
+                  <MDBox key={k} display="flex" flexDirection="column" sx={{ ml: 1 }}>
+                    <MDTypography variant="caption" fontWeight="medium">
+                      {k}:
+                    </MDTypography>
+                    {Object.entries(v).map(([subk, subv]) => (
+                      <MDTypography variant="caption" key={subk} sx={{ ml: 2 }}>
+                        <strong>{subk}:</strong> {String(subv)}
+                      </MDTypography>
+                    ))}
+                  </MDBox>
+                );
+              }
               return (
                 <MDTypography variant="caption" key={k}>
-                  <strong>{k}:</strong> {v.join(", ")}
+                  <strong>{k}:</strong> {String(v)}
                 </MDTypography>
               );
-            }
-            if (v && typeof v === "object") {
-              // quando il valore è un oggetto, spacchettane le chiavi interne
-              return (
-                <MDBox key={k} display="flex" flexDirection="column" sx={{ ml: 1 }}>
-                  <MDTypography variant="caption" fontWeight="medium">
-                    {k}:
-                  </MDTypography>
-                  {Object.entries(v).map(([subk, subv]) => (
-                    <MDTypography variant="caption" key={subk} sx={{ ml: 2 }}>
-                      <strong>{subk}:</strong> {String(subv)}
-                    </MDTypography>
-                  ))}
-                </MDBox>
-              );
-            }
-            // altrimenti fallo come prima
-            return (
-              <MDTypography variant="caption" key={k}>
-                <strong>{k}:</strong> {String(v)}
-              </MDTypography>
-            );
-          })}
+            })}
         </MDBox>
       ),
       actions: (

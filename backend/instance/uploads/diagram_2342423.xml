@@ -1,0 +1,13 @@
+<diagram version="1.0" date="2025-12-22T00:08:41.252Z">
+    <groups id="group-10cd8edb-8b9a-44b9-b11b-58b3c4f59f38" label="Level 0 - Field Devices" x="433.00628662109375" y="320.0375213623047" width="400" height="300" nature="group" groupType="OT.PM.0" iconName="group">
+    </groups>
+    <groups id="group-07ec4b9e-ca38-44e3-b033-a42f966f33d2" label="L4 - Business Network at Plant" x="1231.3003879314833" y="369.27223598778903" width="400" height="300" nature="group" groupType="OT.PM.4" iconName="group">
+    </groups>
+    <groups id="group-a9e73b8a-90d8-4404-b435-8a5f50a98de7" label="LS - Safety Network" x="324.789539393096" y="857.1758908173422" width="400" height="300" nature="group" groupType="OT.PM.S" iconName="group">
+    </groups>
+    <groups id="group-999eddb2-2525-43dc-b320-33d66b7dff76" label="L5 - Enterprise Business Network" x="1307.6679165135001" y="903.8449360619082" width="400" height="300" nature="group" groupType="OT.PM.5" iconName="group">
+    </groups>
+    <connections id="e-520acebc-381e-4337-a16b-292d509e5d21" source="group-10cd8edb-8b9a-44b9-b11b-58b3c4f59f38" target="group-07ec4b9e-ca38-44e3-b033-a42f966f33d2" protocol=""/>
+    <connections id="e-0ff46797-a5ec-4107-9f01-8fcc94d8ead9" source="group-10cd8edb-8b9a-44b9-b11b-58b3c4f59f38" target="group-a9e73b8a-90d8-4404-b435-8a5f50a98de7" protocol=""/>
+    <connections id="e-ed88923f-792c-431f-a85a-0d1ef3680b3f" source="group-10cd8edb-8b9a-44b9-b11b-58b3c4f59f38" target="group-999eddb2-2525-43dc-b320-33d66b7dff76" protocol=""/>
+</diagram>

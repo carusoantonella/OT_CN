@@ -32,12 +32,10 @@ import lbIcon from "../assets/load-balancer.png";
 import internetIcon from "../assets/internet.png";
 import nsgIcon from "../assets/nsg.png";
 import iotDevice from "../assets/iot-device.png";
-// OT icons
-import genericOTServerIcon from "../assets/OT/generic-server.png";
-import wirelessIcon from "../assets/OT/accesspoint.png";
-import pamIcon from "../assets/OT/PAM.png";
-import smtpIcon from "../assets/OT/smtp-server.png";
-import vpnIcon from "../assets/OT/vpn.png";
+
+// OT/ICS
+// (single generic icon requested for all OT nodes)
+import otGenericServerIcon from "../assets/OT/generic-server.png";
 
 const iconMap = {
   AzureSQL: azureSqlIcon,
@@ -69,56 +67,32 @@ const iconMap = {
   ExternalUser: <FaUserAlt />,
   PrivilegedUser: <FaUserShield />,
   ServiceAccount: <FaUserCog />,
-  "GE.EWS": genericOTServerIcon,
-  "GE.OWS": genericOTServerIcon,
-  "GE.HISTORIAN-REPLICA": genericOTServerIcon,
-  "GE.HISTORIAN": genericOTServerIcon,
-  "GE.INDUSTRIAL-FW": genericOTServerIcon,
-  "GE.NGFW": genericOTServerIcon,
-  "GE.DC": genericOTServerIcon,
-  "GE.PRIMARY-BCK": genericOTServerIcon,
-  "GE.SECONDARY-BCK": genericOTServerIcon,
-  "GE.NAS": genericOTServerIcon,
-  "GE.PATCHING": genericOTServerIcon,
-  "GE.AV": genericOTServerIcon,
-  "GE.LOGGING": genericOTServerIcon,
-  "GE.JUMPSERVER": genericOTServerIcon,
-  "GE.WS": genericOTServerIcon,
-  "GE.APPSERVER": genericOTServerIcon,
-  "GE.DATATRANSFER": genericOTServerIcon,
-  "GE.NMS": genericOTServerIcon,
-  "GE.HMI": genericOTServerIcon,
-  "GE.PLC": genericOTServerIcon,
-  "GE.RTU": genericOTServerIcon,
-  "GE.OPC": genericOTServerIcon,
-  "GE.DCS": genericOTServerIcon,
-  "GE.SCADA": genericOTServerIcon,
-  "SAFETY.SIS": genericOTServerIcon,
-  "SAFETY.ESD": genericOTServerIcon,
-  "SAFETY.BMS": genericOTServerIcon,
-  "GE.IED": genericOTServerIcon,
-  "ABB.DCS": genericOTServerIcon,
-  "AVEVA.PIINTERFACE": genericOTServerIcon,
-  "AVEVA.PICONNECTOR": genericOTServerIcon,
-  "AVEVA.PIVISION": genericOTServerIcon,
-  "AVEVA.PIASSETFR": genericOTServerIcon,
-  "AVEVA.PIMANUALLOGGER": genericOTServerIcon,
-  "AVEVA.PIDATAARCHIVE": genericOTServerIcon,
-  "AVEVA.PIPROCESSBOOK": genericOTServerIcon,
-  "AVEVA.PIDATALINK": genericOTServerIcon,
-  "AVEVA.PISYSTEMEXPLORER": genericOTServerIcon,
-  "AVEVA.PIBUILDER": genericOTServerIcon,
-  "AVEVA.PIANALYSIS": genericOTServerIcon,
-  "ASPENTECH.CLOUDCONNECT": genericOTServerIcon,
-  "ASPENTECH.IP21": genericOTServerIcon,
-  "ASPENTECH.DATASERVER": genericOTServerIcon,
-  "ASPENTECH.SITESERVER": genericOTServerIcon,
-  "ASPENTECH.WS": genericOTServerIcon,
-  "GE.MLAPTOP": genericOTServerIcon,
-  "GE.SMTP": smtpIcon,
-  "GE.PAM": pamIcon,
-  "GE.VPN": vpnIcon,
-  "GE.WAP": wirelessIcon,
+
+  // OT nodes (Purdue / ICS)
+  "OT.HMI": otGenericServerIcon,
+  "OT.PLC": otGenericServerIcon,
+  "OT.RTU": otGenericServerIcon,
+  "OT.OPC": otGenericServerIcon,
+  "OT.OPCA": otGenericServerIcon,
+  "OT.DCS": otGenericServerIcon,
+  "OT.SCADA": otGenericServerIcon,
+  "OT.SIS": otGenericServerIcon,
+  "OT.ESD": otGenericServerIcon,
+  "OT.BMS": otGenericServerIcon,
+  "OT.IED": otGenericServerIcon,
+  "OT.MNTL": otGenericServerIcon,
+  "OT.SNS": otGenericServerIcon,
+  "OT.ACT": otGenericServerIcon,
+  "OT.FLD": otGenericServerIcon,
+  "OT.PCTRL": otGenericServerIcon,
+  "OT.BLKV": otGenericServerIcon,
+  "OT.CTRLV": otGenericServerIcon,
+  "OT.XMIT": otGenericServerIcon,
+
+  // IT nodes (still using the same generic OT icon, as requested)
+  "IT.SMTP": otGenericServerIcon,
+  "IT.PAM": otGenericServerIcon,
+  "IT.NTP": otGenericServerIcon,
 };
 
 export default function GenericNode({ id, data, selected }) {
@@ -130,20 +104,15 @@ export default function GenericNode({ id, data, selected }) {
 
   const iconKey = data.metadata?.iconName || data.nature;
   const iconEntry = iconMap[iconKey];
+
   const IconComponent = React.isValidElement(iconEntry) ? (
     React.cloneElement(iconEntry, { className: "node-icon-fa" })
   ) : (
-    /* altrimenti è un URL img o undefined */ <img
-      src={iconEntry || defaultIcon}
-      alt={data.label}
-      className="node-icon-img"
-    />
+    <img src={iconEntry || defaultIcon} alt={data.label} className="node-icon-img" />
   );
-  // al blur o a Invio, salviamo la nuova label
+
   const commitName = () => {
-    // scrivi su data.label così React Flow rilegge la label
     data.label = nodeName;
-    // e chiama il salvataggio sul parent
     data.onSaveLabel?.(id, { ...data.metadata, label: nodeName });
   };
 
@@ -192,11 +161,12 @@ export default function GenericNode({ id, data, selected }) {
         position={Position.Bottom}
         style={{ pointerEvents: "all" }}
       />
+
       <input
         type="text"
         value={nodeName}
         onChange={handleNameChange}
-        onBlur={commitName} // salva al blur
+        onBlur={commitName}
         onKeyDown={(e) => {
           if (e.key === "Enter") {
             e.preventDefault();

@@ -54,6 +54,8 @@ export default function VerifyObjects() {
   const [controller, dispatch] = useMaterialUIController();
   const { wizardData: state = {} } = controller;
   console.log("🚀 VerifyObjects.jsx wizardData:", state);
+  console.log("[VerifyObjects] state.nodes:", state.nodes);
+  console.log("[VerifyObjects] state.groups:", state.groups);
   const navigate = useNavigate();
 
   // XML e nodi da Context (wizardData)
@@ -73,6 +75,7 @@ export default function VerifyObjects() {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [loadingNext, setLoadingNext] = useState(false);
   // ─── Caricamento da XML o da initialNodes ─────────────────────────────────────────
+  // ─── Caricamento da XML + merge con initialNodes ────────────────────────────────
   useEffect(() => {
     const initialNodesLocal = state.nodes || [];
     console.log(
@@ -80,66 +83,14 @@ export default function VerifyObjects() {
       diagramImage?.length,
       diagramImage ? "(ricevuta)" : "(VUOTA o mancante)"
     );
-    const parseEdgesFromXml = () => {
-      if (!xmlString) return;
-      const parsed = xml2js(xmlString, { compact: true });
-      const diag = parsed.diagram || {};
-      // arrayify su diag.connections (auto array se ce n'è uno solo)
-      const rawConns = Array.isArray(diag.connections)
-        ? diag.connections
-        : diag.connections
-        ? [diag.connections]
-        : [];
-      const connsArr = rawConns.map((c) => {
-        const a = c._attributes || {};
-        const displayMeta = Object.fromEntries(
-          Object.entries(a).filter(([k]) => !SYSTEM_KEYS.includes(k))
-        );
-        return {
-          id: a.id,
-          label: a.label || `${a.source}→${a.target}`,
-          source: a.source,
-          target: a.target,
-          nature: "connection", // deve corrispondere a VerifyEdgesTableData.js
-          metadata: a,
-          data: { metadata: a },
-          displayMetadata: displayMeta,
-        };
-      });
-      console.log(
-        "🗺 parseEdgesFromXml ristampa:",
-        connsArr.map((c) => c.displayMetadata.protocol)
-      );
-      setEdges(connsArr);
-    };
+    console.log("[VerifyObjects] initialNodesLocal:", initialNodesLocal);
+    console.log("[VerifyObjects] xmlString presente?", !!xmlString);
 
-    // se arrivo dal diagram (initialNodes)
-    if (Array.isArray(initialNodesLocal) && initialNodesLocal.length > 0) {
-      const objs = initialNodesLocal.map((n) => {
-        // prendo metadata e displayMetadata direttamente dai campi che ho salvato
-        const fullMeta = n.metadata || {};
-        const displayMeta = Object.fromEntries(
-          Object.entries(n.displayMetadata || fullMeta).filter(([k]) => !SYSTEM_KEYS.includes(k))
-        );
-        return {
-          id: n.id,
-          label: n.label,
-          // se hai bisogno di distinguere gruppi, conserva anche n.nature o n.type
-          nature: n.nature || (n.type === "groupNode" ? "group" : "generic"),
-          metadata: fullMeta,
-          displayMetadata: displayMeta,
-        };
-      });
-      setItems(objs);
-      parseEdgesFromXml();
-    }
+    // parsiamo l'XML una sola volta (se esiste)
+    const parsed = xmlString ? xml2js(xmlString, { compact: true }) : null;
+    const diag = parsed?.diagram || {};
 
-    // altrimenti da XML
-    if (!xmlString) return;
-    const parsed = xml2js(xmlString, { compact: true });
-    const diag = parsed.diagram || {};
-
-    // ── groups ─────────────────
+    // ── groups da XML ─────────────────────────────
     const rawGroups = Array.isArray(diag.groups) ? diag.groups : diag.groups ? [diag.groups] : [];
     const groupsArr = rawGroups.map((g) => {
       const a = g._attributes || {};
@@ -155,32 +106,65 @@ export default function VerifyObjects() {
       };
     });
 
-    // ── elements standalone ─────────────────
-    const rawEls = Array.isArray(diag.elements)
-      ? diag.elements
-      : diag.elements
-      ? [diag.elements]
-      : [];
-    const elsArr = rawEls.map((el) => {
-      const b = el._attributes || {};
+    console.log("[VerifyObjects][XML] groupsArr:", groupsArr);
+
+    // ── edges da XML ──────────────────────────────
+    const rawConns = arrayify(diag.connections);
+    console.log("Parsed rawConns:", rawConns);
+    const connsArr = rawConns.map((c) => {
+      const a = c._attributes || {};
       const displayMeta = Object.fromEntries(
-        Object.entries(b).filter(([k]) => !SYSTEM_KEYS.includes(k))
+        Object.entries(a).filter(([k]) => !SYSTEM_KEYS.includes(k))
       );
       return {
-        id: b.id,
-        label: b.label,
-        nature: b.nature || "generic",
-        metadata: b,
+        id: a.id,
+        label: a.label || `${a.source}→${a.target}`,
+        source: a.source,
+        target: a.target,
+        nature: "connection",
+        metadata: a,
+        data: { metadata: a },
         displayMetadata: displayMeta,
       };
     });
+    setEdges(connsArr);
 
-    // ── elementi figli dei gruppi ─────────────────
-    const groupChildArr = rawGroups.flatMap((g) => {
-      // g.elements può essere: undefined, un singolo oggetto, un array, o { elements: [...] }
-      const container = g.elements?.elements ?? g.elements;
-      const childs = Array.isArray(container) ? container : container ? [container] : [];
-      return childs.map((el) => {
+    // ── baseItems: i nodi (non-group) ──────────────────────────────
+    let baseItems = [];
+
+    if (Array.isArray(initialNodesLocal) && initialNodesLocal.length > 0) {
+      // ✅ usiamo i nodi già arricchiti da App.jsx (con parentGroupId / parentLabel)
+      console.log("[VerifyObjects] >>> USO initialNodesLocal (branch da diagram)");
+      baseItems = initialNodesLocal.map((n) => {
+        const fullMeta = n.metadata || n.data?.metadata || {};
+        const displayMeta = Object.fromEntries(
+          Object.entries(n.displayMetadata || fullMeta).filter(([k]) => !SYSTEM_KEYS.includes(k))
+        );
+
+        console.log("[VerifyObjects] node grezzo:", {
+          id: n.id,
+          label: n.label || n.data?.label,
+          type: n.type,
+          nature: n.nature || n.data?.nature,
+          fullMeta,
+        });
+
+        return {
+          id: n.id,
+          label: n.label || n.data?.label,
+          nature: n.nature || n.data?.nature || (n.type === "groupNode" ? "group" : "generic"),
+          metadata: fullMeta,
+          displayMetadata: displayMeta,
+        };
+      });
+    } else if (parsed) {
+      // 🔁 fallback: se non abbiamo state.nodes, costruiamo i nodi dall'XML
+      const rawEls = Array.isArray(diag.elements)
+        ? diag.elements
+        : diag.elements
+        ? [diag.elements]
+        : [];
+      const elsArr = rawEls.map((el) => {
         const b = el._attributes || {};
         const displayMeta = Object.fromEntries(
           Object.entries(b).filter(([k]) => !SYSTEM_KEYS.includes(k))
@@ -193,36 +177,50 @@ export default function VerifyObjects() {
           displayMetadata: displayMeta,
         };
       });
-    });
 
-    // ── connections (edge) ─────────────────
-    // ── connections (edge): ciascun <connections …/> è direttamente in diag.connections
-    const rawConns = arrayify(diag.connections);
-    console.log("Parsed rawConns:", rawConns);
-    const connsArr = rawConns.map((c) => {
-      const a = c._attributes || {};
-      const displayMeta = Object.fromEntries(
-        Object.entries(a).filter(([k]) => !SYSTEM_KEYS.includes(k))
-      );
-      return {
-        id: a.id,
-        source: a.source,
-        target: a.target,
-        nature: "connection",
-        metadata: a,
-        data: { metadata: a },
-        displayMetadata: displayMeta,
-      };
-    });
+      // elementi figli dei gruppi
+      const groupChildArr = rawGroups.flatMap((g) => {
+        const container = g.elements?.elements ?? g.elements;
+        const childs = Array.isArray(container) ? container : container ? [container] : [];
+        return childs.map((el) => {
+          const b = el._attributes || {};
+          const displayMeta = Object.fromEntries(
+            Object.entries(b).filter(([k]) => !SYSTEM_KEYS.includes(k))
+          );
+          return {
+            id: b.id,
+            label: b.label,
+            nature: b.nature || "generic",
+            metadata: b,
+            displayMetadata: displayMeta,
+          };
+        });
+      });
 
-    // includi anche gli elementi figli dei gruppi
-    const combined = [...groupsArr, ...elsArr, ...groupChildArr];
-    // rimuovi eventuali duplicati per id
+      console.log("[VerifyObjects][XML] elsArr:", elsArr);
+      console.log("[VerifyObjects][XML] groupChildArr:", groupChildArr);
+
+      baseItems = [...elsArr, ...groupChildArr];
+    }
+
+    // ── merge: nodi (baseItems) + gruppi (groupsArr) ─────────────────────
+    const combined = [...baseItems, ...groupsArr];
     const unique = combined.filter(
       (item, idx, arr) => arr.findIndex((x) => x.id === item.id) === idx
     );
+
+    console.log(
+      "[VerifyObjects][final] combined items:",
+      unique.map((u) => ({
+        id: u.id,
+        label: u.label,
+        nature: u.nature,
+        parentGroupId: u.metadata?.parentGroupId,
+        parentLabel: u.metadata?.parentLabel,
+      }))
+    );
+
     setItems(unique);
-    setEdges(connsArr);
   }, [xmlString, state.nodes, diagramImage]);
 
   // ─── Handlers per modify & delete ─────────────────────────────────────────────
@@ -312,20 +310,30 @@ export default function VerifyObjects() {
 
     const nodesArray = items
       .filter((it) => it.nature !== "group")
-      .map((n) => ({
-        id: n.id,
-        label: n.label,
-        metadata: n.metadata,
-        displayMetadata: n.displayMetadata,
-      }));
+      .map((n) => {
+        const meta = n.metadata || {};
+        return {
+          id: n.id,
+          label: n.label,
+          nature: n.nature || meta.nature || "generic",
+          group_id: meta.parentGroupId || null,
+          group_type: meta.parentGroupLogicalId || meta.groupType || null,
+          metadata: n.metadata,
+          displayMetadata: n.displayMetadata,
+        };
+      });
 
-    const edgesArray = edges.map((e) => ({
-      id: e.id,
-      source: e.source,
-      target: e.target,
-      metadata: e.metadata,
-      displayMetadata: e.displayMetadata,
-    }));
+    const edgesArray = edges.map((e) => {
+      const meta = e.metadata || {};
+      return {
+        id: e.id,
+        source: e.source,
+        target: e.target,
+        protocol: meta.protocol || e.displayMetadata?.protocol || null,
+        metadata: e.metadata,
+        displayMetadata: e.displayMetadata,
+      };
+    });
 
     // Catalogo nodi per SM_Nodes (uno per ogni nodo NON di tipo group)
     const node_catalog = nodesArray.map((n) => {

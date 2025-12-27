@@ -1,0 +1,18 @@
+<diagram version="1.0" date="2025-11-22T01:29:14.137Z">
+    <elements id="FirewallHW-711ea75b-7dde-470b-b182-58d4b6dca64a" label="Firewall HW" x="1445.7650120358444" y="1637.8482990336556" nature="FirewallHW" iconName="FirewallHW"/>
+    <groups id="group-d5b73556-8aae-41d7-b081-f64543376015" label="Level 4 – Site Business Planing &amp; Logistics" x="470.61507457590415" y="268.6567477869007" width="1116" height="919" nature="group" groupType="Level_4_P2M" iconName="group">
+        <elements id="GE.OWS-c19b296c-4a32-4e04-9414-b15ec4302c52" label="Operator Workstation" x="620.3933483868377" y="394.994331833642" nature="GE.OWS" iconName="GE.OWS" parentGroupId="Level_4_P2M" parentGroupNodeId="group-d5b73556-8aae-41d7-b081-f64543376015" parentGroupLogicalId="Level_4_P2M" parentLabel="Level 4 – Site Business Planing &amp; Logistics"/>
+        <elements id="GE.HISTORIAN-a55d30c8-c4c4-4d60-af4b-9ece695a1ad4" label="Historian Server" x="756.4648217754841" y="633.1194102637731" nature="GE.HISTORIAN" iconName="GE.HISTORIAN" parentGroupId="Level_4_P2M" parentGroupNodeId="group-d5b73556-8aae-41d7-b081-f64543376015" parentGroupLogicalId="Level_4_P2M" parentLabel="Level 4 – Site Business Planing &amp; Logistics"/>
+        <elements id="ASPENTECH.WS-4aae22d3-337b-4723-82ca-5b260b8e6993" label="Aspen Web Server" x="774.1037164740122" y="941.8000674880171" nature="ASPENTECH.WS" iconName="ASPENTECH.WS" parentGroupId="Level_1_BC_P2M" parentGroupNodeId="group-4d7d3526-328d-43a0-a980-9432fcfda818" parentGroupLogicalId="Level_1_BC_P2M" parentLabel="Level 1 – Basic Control PEppe"/>
+    </groups>
+    <groups id="group-4d7d3526-328d-43a0-a980-9432fcfda818" label="Level 1 – Basic Control PEppe" x="563.6969011415683" y="820.8476466981093" width="400" height="300" nature="group" groupType="Level_1_BC_P2M" iconName="group">
+        <elements id="ASPENTECH.WS-4aae22d3-337b-4723-82ca-5b260b8e6993" label="Aspen Web Server" x="774.1037164740122" y="941.8000674880171" nature="ASPENTECH.WS" iconName="ASPENTECH.WS" parentGroupId="Level_1_BC_P2M" parentGroupNodeId="group-4d7d3526-328d-43a0-a980-9432fcfda818" parentGroupLogicalId="Level_1_BC_P2M" parentLabel="Level 1 – Basic Control PEppe"/>
+    </groups>
+    <groups id="group-e9ddb55d-2f72-43e4-aca8-8398988f4f2f" label="Cloud Area" x="216.7630974593678" y="1382.566002237355" width="671" height="549" nature="group" groupType="cloud" iconName="group">
+        <elements id="SAN-3f098005-fc03-4c60-8198-0a4b21f8d94d" label="SAN Storage" x="415.51859996505914" y="1584.968394697279" nature="SAN" iconName="SAN" parentGroupId="cloud"/>
+    </groups>
+    <connections id="e-1431e144-4689-477e-a33f-541d8ced74d3" source="GE.OWS-c19b296c-4a32-4e04-9414-b15ec4302c52" target="GE.HISTORIAN-a55d30c8-c4c4-4d60-af4b-9ece695a1ad4" protocol=""/>
+    <connections id="e-58b55af0-365b-4f5c-a2d9-9d36671dc440" source="GE.HISTORIAN-a55d30c8-c4c4-4d60-af4b-9ece695a1ad4" target="ASPENTECH.WS-4aae22d3-337b-4723-82ca-5b260b8e6993" protocol=""/>
+    <connections id="e-8ddd36f2-0701-4f6d-8af2-4669a6a84fda" source="ASPENTECH.WS-4aae22d3-337b-4723-82ca-5b260b8e6993" target="SAN-3f098005-fc03-4c60-8198-0a4b21f8d94d" protocol=""/>
+    <connections id="e-753bfefc-cb41-4fa0-ae27-ac3048c65585" source="SAN-3f098005-fc03-4c60-8198-0a4b21f8d94d" target="FirewallHW-711ea75b-7dde-470b-b182-58d4b6dca64a" protocol=""/>
+</diagram>

@@ -163,3 +163,9 @@
 .sb-header-min + * {
   margin-top: 30px; /* aumenta/diminuisci a piacere: 8–16px */
 }
+
+.sidebar-icon-fa {
+  font-size: 32px;
+  margin: 8px 0;
+  color: #111827;
+}

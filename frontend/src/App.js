@@ -71,7 +71,7 @@ export default function App() {
   const { pathname } = useLocation();
 
   // Filtra routes per ruolo (RBAC lato UI) — OR logico su più ruoli (case-insensitive)
-  const userRoles = useMemo(() => getUserRoles(), []);
+  const userRoles = getUserRoles();
   const normalize = (arr) => (arr || []).map((s) => String(s).trim().toLowerCase());
   const canSee = (route) =>
     !route.roles || normalize(route.roles).some((r) => userRoles.includes(r));

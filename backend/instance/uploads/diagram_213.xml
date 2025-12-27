@@ -1,4 +1,4 @@
-<diagram version="1.0" date="2025-11-22T00:14:32.297Z">
+<diagram version="1.0" date="2025-11-21T23:12:02.988Z">
     <elements id="GE.VPN-cc579480-71a3-454e-95d5-3a86486596cc" label="VPN" x="266.398698354997" y="211.0234375" nature="GE.VPN" iconName="GE.VPN"/>
     <elements id="ExternalUser-6ad8330a-efae-4c43-a973-6219ac37e925" label="Utente Esterno" x="-23.090123621821647" y="523.6635963270971" nature="ExternalUser" iconName="ExternalUser"/>
     <elements id="Internet-b8fac921-0c33-452a-9b3f-85c42693022a" label="Internet" x="256.90987637817835" y="523.1635963270971" nature="Internet" iconName="Internet"/>

@@ -54,8 +54,8 @@ export default function App() {
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
   // se stiamo importando, inizializziamo con quelli, altrimenti con array vuoti
-  const initialNodesFromState = wizardData?.initialNodes || [];
-  const initialEdgesFromState = wizardData?.initialEdges || [];
+  const initialNodesFromState = wizardData?.nodes || [];
+  const initialEdgesFromState = wizardData?.edges || [];
 
   const [nodes, setNodes, onNodesChangeRaw] = useNodesState(initialNodesFromState);
   const [edges, setEdges, onEdgesChangeRaw] = useEdgesState(initialEdgesFromState);
@@ -311,6 +311,81 @@ export default function App() {
       n.position.y < g.position.y + (g.style.height || 150)
     );
   }, []);
+
+  // Restituisce il gruppo "più interno" che contiene il nodo,
+  // cioè quello con area width*height più piccola tra quelli che lo contengono.
+  // Restituisce il gruppo "più interno" che contiene il nodo,
+  // cioè quello con area width*height più piccola tra quelli che lo contengono.
+  const getDirectParentGroup = (node, groupNodes) => {
+    if (!Array.isArray(groupNodes) || !groupNodes.length) return null;
+
+    // tutti i gruppi che contengono il nodo (può essere nonno, padre, ecc.)
+    const containers = groupNodes.filter((g) => isNodeInGroup(node, g));
+    if (!containers.length) return null;
+
+    // scegliamo il gruppo con bounding box più piccola
+    return containers.reduce((best, g) => {
+      const w = g.style?.width || 0;
+      const h = g.style?.height || 0;
+      const area = w * h;
+
+      const bw = best.style?.width || 0;
+      const bh = best.style?.height || 0;
+      const bestArea = bw * bh;
+
+      return area < bestArea ? g : best;
+    });
+  };
+
+  // ID logico del gruppo: uno dei 10 valori (Level_x_P2M, cloud, onPremise)
+  // fallback: id del nodo se manca tutto
+  const getGroupLogicalId = (groupNode) =>
+    groupNode?.data?.metadata?.groupId || groupNode?.data?.metadata?.groupType || groupNode?.id;
+
+  // Restituisce la lista di nodi con data.metadata.parentGroup* impostato
+  const attachParentGroupToNodes = (allNodes, groupNodes) => {
+    const result = allNodes.map((node) => {
+      // non toccare i groupNode stessi
+      if (node.type === "groupNode") return node;
+
+      // 🔹 QUI: passo l'ARRAY dei gruppi, non il singolo g
+      const parent = getDirectParentGroup(node, groupNodes);
+      const parentNodeId = parent ? parent.id : null;
+      const parentLogicalId = parent ? getGroupLogicalId(parent) : null;
+      const parentLabel = parent ? parent.data?.label || "" : "";
+
+      const updated = {
+        ...node,
+        data: {
+          ...node.data,
+          metadata: {
+            ...(node.data?.metadata || {}),
+            parentGroupId: parentNodeId, // legacy
+            parentGroupNodeId: parentNodeId, // istanza
+            parentGroupLogicalId: parentLogicalId,
+            parentLabel,
+          },
+        },
+      };
+
+      return updated;
+    });
+
+    console.log(
+      "[DEBUG] attachParentGroupToNodes → parentGroup per nodo:",
+      result.map((n) => ({
+        id: n.id,
+        label: n.data?.label,
+        parentGroupId: n.data?.metadata?.parentGroupId ?? null,
+        parentGroupNodeId: n.data?.metadata?.parentGroupNodeId ?? null,
+        parentGroupLogicalId: n.data?.metadata?.parentGroupLogicalId ?? null,
+        parentLabel: n.data?.metadata?.parentLabel ?? null,
+      }))
+    );
+
+    return result;
+  };
+
   const handleNodeDragStart = useCallback(
     (_, node) => {
       if (node.type === "groupNode") {
@@ -341,7 +416,8 @@ export default function App() {
       if (info && node.type === "groupNode" && info.id === node.id) {
         const dx = node.position.x - info.sx;
         const dy = node.position.y - info.sy;
-        // sposta tutti i figli, inclusi eventuali groupNode nidificati
+
+        // sposta tutti i figli
         setNodes((nds = []) =>
           nds.map((n) =>
             info.children.includes(n.id)
@@ -356,19 +432,29 @@ export default function App() {
           )
         );
 
-        // --- NUOVO: ricalcolo groupId per **TUTTI** i genericNode ---
+        // ricalcolo parentGroupId con l'ID logico del gruppo
+        // --- ricalcolo parentGroup* per tutti i genericNode ---
         setNodes((nds) => {
+          const groups = nds.filter((g) => g.type === "groupNode");
+
           return nds.map((n) => {
             if (n.type !== "genericNode") return n;
-            // cerco un gruppo che lo contenga
-            const parent = nds.find((g) => g.type === "groupNode" && isNodeInGroup(n, g));
+
+            const parent = getDirectParentGroup(n, groups);
+            const parentNodeId = parent ? parent.id : null;
+            const parentLogicalId = parent ? getGroupLogicalId(parent) : null;
+            const parentLabel = parent ? parent.data?.label || "" : "";
+
             return {
               ...n,
               data: {
                 ...n.data,
                 metadata: {
-                  ...n.data.metadata,
-                  parentGroupId: parent ? parent.id : null,
+                  ...(n.data?.metadata || {}),
+                  parentGroupId: parentNodeId, // legacy
+                  parentGroupNodeId: parentNodeId, // istanza
+                  parentGroupLogicalId: parentLogicalId,
+                  parentLabel,
                 },
               },
             };
@@ -397,6 +483,28 @@ export default function App() {
     [setEdges, pushHistory, setSelectedEdge]
   );
 
+  const xmlEscape = (str) =>
+    String(str ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+
+  // Escapa tutte le stringhe negli attributi XML
+  const sanitizeAttributesForXml = (attrs) => {
+    const result = {};
+    Object.entries(attrs || {}).forEach(([key, value]) => {
+      if (value === undefined || value === null) return;
+      if (typeof value === "string") {
+        result[key] = xmlEscape(value);
+      } else {
+        result[key] = value;
+      }
+    });
+    return result;
+  };
+
   const exportToXml = useCallback(() => {
     // 1) Costruisci l’oggetto JS da serializzare
     const groupNodes = nodes.filter((n) => n.type === "groupNode");
@@ -411,7 +519,7 @@ export default function App() {
     };
 
     groupNodes.forEach((g) => {
-      const attrs = {
+      const rawAttrs = {
         id: g.id,
         label: g.data.label,
         x: g.position.x,
@@ -421,19 +529,23 @@ export default function App() {
         nature: "group",
         ...g.data.metadata,
       };
+      const attrs = sanitizeAttributesForXml(rawAttrs);
+
       const grp = { _attributes: attrs, elements: [] };
 
       genericNodes.forEach((n) => {
-        if (isNodeInGroup(n, g)) {
+        const parent = getDirectParentGroup(n, groupNodes);
+        if (parent && parent.id === g.id) {
+          const rawChildAttrs = {
+            id: n.id,
+            label: n.data.label,
+            x: n.position.x,
+            y: n.position.y,
+            nature: n.data.nature || "generic",
+            ...n.data.metadata,
+          };
           grp.elements.push({
-            _attributes: {
-              id: n.id,
-              label: n.data.label,
-              x: n.position.x,
-              y: n.position.y,
-              nature: n.data.nature || "generic",
-              ...n.data.metadata,
-            },
+            _attributes: sanitizeAttributesForXml(rawChildAttrs),
           });
         }
       });
@@ -442,15 +554,16 @@ export default function App() {
 
     genericNodes.forEach((n) => {
       if (!groupNodes.some((g) => isNodeInGroup(n, g))) {
+        const rawStandaloneAttrs = {
+          id: n.id,
+          label: n.data.label,
+          x: n.position.x,
+          y: n.position.y,
+          nature: n.data.nature || "generic",
+          ...n.data.metadata,
+        };
         xmlObj.diagram.elements.push({
-          _attributes: {
-            id: n.id,
-            label: n.data.label,
-            x: n.position.x,
-            y: n.position.y,
-            nature: n.data.nature || "generic",
-            ...n.data.metadata,
-          },
+          _attributes: sanitizeAttributesForXml(rawStandaloneAttrs),
         });
       }
     });
@@ -531,7 +644,7 @@ export default function App() {
     };
 
     groupNodes.forEach((g) => {
-      const attrs = {
+      const rawAttrs = {
         id: g.id,
         label: g.data.label,
         x: g.position.x,
@@ -541,6 +654,8 @@ export default function App() {
         nature: "group",
         ...g.data.metadata,
       };
+      const attrs = sanitizeAttributesForXml(rawAttrs);
+
       const grp = { _attributes: attrs, elements: [] };
       genericNodes.forEach((n) => {
         if (
@@ -557,7 +672,7 @@ export default function App() {
             nature: n.data.nature || "generic",
             ...n.data.metadata,
           };
-          grp.elements.push({ _attributes: b });
+          grp.elements.push({ _attributes: sanitizeAttributesForXml(b) });
         }
       });
       xmlObj.diagram.groups.push(grp);
@@ -580,7 +695,7 @@ export default function App() {
           nature: n.data.nature || "generic",
           ...n.data.metadata,
         };
-        xmlObj.diagram.elements.push({ _attributes: b });
+        xmlObj.diagram.elements.push({ _attributes: sanitizeAttributesForXml(b) });
       }
     });
 
@@ -613,12 +728,26 @@ export default function App() {
     setSavingDiagram(true);
     const { project_id, xml_url, upload_file } = await saveDiagramToServer(xmlStr);
     setSavingDiagram(false);
+    // ⬇️ prendo i groupNode
+    const groupNodess = nodes.filter((n) => n.type === "groupNode");
 
+    // ⬇️ applico la funzione che calcola il parentGroupId
+    const nodesWithGroup = attachParentGroupToNodes(nodes, groupNodess);
+
+    // ⬇️ LOG sintetico prima di salvare nello stato globale
+    console.log(
+      "[DEBUG] handleContinue → nodi con parentGroupId:",
+      nodesWithGroup.map((n) => ({
+        id: n.id,
+        label: n.data?.label,
+        parentGroupId: n.data?.metadata?.parentGroupId ?? null,
+      }))
+    );
     // 2) naviga passando anche la dataURL
     setWizardData(dispatch, {
       projectInfo: wizardData.projectInfo,
       xmlString: xmlStr,
-      nodes,
+      nodes: nodesWithGroup,
       edges,
       diagramImage,
       projectId: project_id || null, // useremo questo più avanti per agganciare minacce/CVE
@@ -683,7 +812,7 @@ export default function App() {
         rawChilds.forEach((el) => {
           const b = el._attributes || {};
           // ← QUI: inietto l’id del gruppo padre
-          b.parentGroupId = a.id;
+          b.parentGroupId = a.groupId || a.groupType || a.id;
           nodesArr.push({
             id: b.id,
             type: "genericNode",
