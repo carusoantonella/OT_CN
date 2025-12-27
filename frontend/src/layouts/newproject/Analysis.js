@@ -739,6 +739,8 @@ export default function Analysis() {
 
               const mitigationText =
                 t.possible_mitigation || t.possibleMitigation || t.mitigation || "";
+              const ruleId = t.rule_id || t.ruleId || "-";
+              const threatid = t.threat_id || t.threatId || "-";
               return (
                 <Paper
                   key={`${t.rule_id}-${t.threat_id}`}
@@ -782,6 +784,12 @@ export default function Analysis() {
                       {sev}
                     </MDTypography>
                   </MDBox>
+                  <MDTypography variant="body2" color="text" sx={{ mt: 0.5 }}>
+                    <strong>Rule ID:</strong> {ruleId}
+                  </MDTypography>
+                  <MDTypography variant="body2" color="text" sx={{ mt: 0.5 }}>
+                    <strong>Threat ID:</strong> {threatid}
+                  </MDTypography>
                   <MDTypography variant="body2" color="text" sx={{ mt: 0.5 }}>
                     <strong>Source:</strong> {sourceLabel}
                   </MDTypography>

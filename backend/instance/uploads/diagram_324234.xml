@@ -1,13 +1,10 @@
-<diagram version="1.0" date="2025-12-22T00:11:11.555Z">
-    <groups id="group-10cd8edb-8b9a-44b9-b11b-58b3c4f59f38" label="Level 0 - Field Devices" x="433.00628662109375" y="320.0375213623047" width="400" height="300" nature="group" groupType="OT.PM.0" iconName="group">
+<diagram version="1.0" date="2025-12-27T22:07:07.484Z">
+    <groups id="group-31f82633-7c48-483d-96d1-ec0e8210ac2e" label="Level 0 - Field Devices" x="448.00628662109375" y="272.0375213623047" width="400" height="300" nature="group" groupType="OT.PM.0" iconName="group">
     </groups>
-    <groups id="group-a9252e90-49a1-4f82-b30d-9fcd72444ebe" label="L3.5 - OT DMZ - Major ICS Enforcement Boundary" x="1160.536041420692" y="493.56535140998915" width="400" height="300" nature="group" groupType="OT.PM.3.5" iconName="group">
+    <groups id="group-108a2385-f848-40e3-83cb-93a891f37aea" label="L3.5 - OT DMZ - Major ICS Enforcement Boundary" x="1016.399627577679" y="276.54242379394685" width="400" height="300" nature="group" groupType="OT.PM.3.5" iconName="group">
     </groups>
-    <groups id="group-d8b27cf1-eded-4ef8-a636-35eb6f712f14" label="L4 - Business Network at Plant" x="1017.4592939089449" y="966.8192085642297" width="400" height="300" nature="group" groupType="OT.PM.4" iconName="group">
+    <groups id="group-43c732bf-94a9-4c55-b1c4-8e444a709c32" label="L5 - Enterprise Business Network" x="400.69733371937446" y="750.9548255914834" width="400" height="300" nature="group" groupType="OT.PM.5" iconName="group">
     </groups>
-    <groups id="group-11a245e7-fd9c-4968-b43c-9f0583b1e431" label="L5 - Enterprise Business Network" x="148.63147754929196" y="930.58525058961" width="400" height="300" nature="group" groupType="OT.PM.5" iconName="group">
-    </groups>
-    <connections id="e-108aa14d-8830-4823-bea3-37e3a11d4785" source="group-10cd8edb-8b9a-44b9-b11b-58b3c4f59f38" target="group-a9252e90-49a1-4f82-b30d-9fcd72444ebe" protocol=""/>
-    <connections id="e-4a099883-5f10-454f-8c63-3dba56bbb12d" source="group-10cd8edb-8b9a-44b9-b11b-58b3c4f59f38" target="group-d8b27cf1-eded-4ef8-a636-35eb6f712f14" protocol=""/>
-    <connections id="e-83615d8d-729d-4eeb-afb4-ef6577ec4528" source="group-10cd8edb-8b9a-44b9-b11b-58b3c4f59f38" target="group-11a245e7-fd9c-4968-b43c-9f0583b1e431" protocol=""/>
+    <connections id="e-859b1c9f-99b9-499c-a159-f3902d509e9d" source="group-31f82633-7c48-483d-96d1-ec0e8210ac2e" target="group-108a2385-f848-40e3-83cb-93a891f37aea" protocol=""/>
+    <connections id="e-b43e71af-1c95-46d5-bca0-1bc76b246821" source="group-31f82633-7c48-483d-96d1-ec0e8210ac2e" target="group-43c732bf-94a9-4c55-b1c4-8e444a709c32" protocol=""/>
 </diagram>

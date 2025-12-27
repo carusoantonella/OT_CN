@@ -1,0 +1,10 @@
+<diagram version="1.0" date="2025-12-27T22:01:48.045Z">
+    <groups id="group-c9f978ac-4c1a-42f1-8df6-ddbb36daeb36" label="Level 0 - Field Devices" x="458.09967080412684" y="306.408077574347" width="400" height="300" nature="group" groupType="OT.PM.0" iconName="group">
+    </groups>
+    <groups id="group-e1f7fef0-9ed2-415f-adb4-5615cf44790a" label="L3.5 - OT DMZ - Major ICS Enforcement Boundary" x="1005.7129566027959" y="324.2170408167083" width="400" height="300" nature="group" groupType="OT.PM.3.5" iconName="group">
+    </groups>
+    <groups id="group-8f6b4e0a-2251-462b-9b14-d45d673945e8" label="L5 - Enterprise Business Network" x="456.1565409350778" y="782.3362260337702" width="400" height="300" nature="group" groupType="OT.PM.5" iconName="group">
+    </groups>
+    <connections id="e-3f237bee-7190-421a-bf66-a54780d393ea" source="group-c9f978ac-4c1a-42f1-8df6-ddbb36daeb36" target="group-e1f7fef0-9ed2-415f-adb4-5615cf44790a" protocol=""/>
+    <connections id="e-36bb30ad-b485-4ab4-9b8c-c5054be5abef" source="group-c9f978ac-4c1a-42f1-8df6-ddbb36daeb36" target="group-8f6b4e0a-2251-462b-9b14-d45d673945e8" protocol=""/>
+</diagram>

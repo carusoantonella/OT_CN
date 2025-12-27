@@ -525,7 +525,7 @@ def detect_threats():
                     "threat_category": tt.get("category"),
 
                     # già presenti/tuoi
-                    "rule_id": rule.get("rule_id"),
+                    "rule_id": rule["rule_id"],
                     "attribute_target": rule["attribute_tgt"],
                     "attribute_source": rule["attribute_src"],
                     "reason": reason,
